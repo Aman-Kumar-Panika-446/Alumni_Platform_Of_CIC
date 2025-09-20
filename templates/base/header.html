@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="{% static 'base/header.css' %}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+  <!-- Left Logo -->
+  <div class="logo">
+    <h2>Alumni Association Platform</h2>
+  </div>
+
+  <!-- Right Menu -->
+  <nav class="menu">
+    <a href="{% url 'home_page' %}" class="active">
+      <i class="fas fa-home"></i>
+      <span>About Us</span>
+    </a>
+
+    <a href="#">
+      <i class="fas fa-users"></i>
+      <span>People</span>
+    </a>
+
+    <a href="#">
+      <i class="fas fa-calendar-alt"></i>
+      <span>Events</span>
+    </a>
+
+    <a href="#">
+      <i class="fas fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+
+    <a href="#">
+      <i class="fas fa-envelope"></i>
+      <span>Messages</span>
+      <span class="badge">1</span>
+    </a>
+
+    <a href="#">
+      <i class="fas fa-bell"></i>
+      <span>Notifications</span>
+      <span class="badge">1</span>
+    </a>
+
+    <!-- Profile Section -->
+    <div class="profile">
+      <img src="{{ request.user.profile_pic.url }}" alt="Profile">
+      <span>Me<i class="fas fa-caret-down"></i></span>
+
+      <!-- Dropdown -->
+      <div class="dropdown-menu">
+        <a href="{% url 'dashboard:dashboard' %}">👤 Profile</a>
+        <a href="{% url 'dashboard:user_logout' %}">🚪 Logout</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+</body>
+</html>

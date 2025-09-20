@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - Email Verification</title>
+
+  <!-- Custom CSS -->
+  <link href="{% static 'authentication/css/email_verification.css' %}" rel="stylesheet">
+
+</head>
+<body>
+
+  <!-- Include messages -->
+  {% include "authentication/message.html" %}
+
+  <!-- Main Wrapper -->
+  <div class="container">
+    <div class="card">
+
+      <form method="post" action="{% url 'email_verification' %}">
+        {% csrf_token %}
+        <h2 class="title">Signup - Email Verification</h2>
+
+        <!-- Email Input -->
+        <input type="email" name="email" placeholder="Enter your @cic.du.ac.in email"
+               required pattern=".+@cic\.du\.ac\.in"
+               class="form-control"
+               value="{{ request.session.email|default:'' }}">
+
+        <!-- OTP Input (show only if sent) -->
+        {% if request.session.otp_sent %}
+          <input type="text" name="otp" placeholder="Enter OTP" class="form-control">
+        {% endif %}
+
+        <!-- Buttons -->
+        {% if not request.session.otp_sent %}
+          <button type="submit" name="action" value="send_otp" class="btn btn-primary">Send OTP</button>
+        {% else %}
+          <button type="submit" name="action" value="verify_otp" class="btn btn-success">Verify OTP</button>
+          <button type="submit" name="action" value="resend_otp" class="btn btn-secondary">Resend OTP</button>
+        {% endif %}
+
+        <!-- Login Links -->
+        <p class="links">
+          <a href="{% url 'login_view' %}">Already have an account?</a><br>
+          <a href="{% url 'manual_verification' %}">Facing Problem?</a>
+        </p>
+
+      </form>
+
+    </div>
+  </div>
+
+</body>
+</html>

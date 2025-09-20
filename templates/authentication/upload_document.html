@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - Details</title>
+  <link href="{% static 'authentication/css/upload_document.css' %}" rel="stylesheet">
+</head>
+<body>
+  {% include "authentication/message.html" %}
+
+
+  <div class="container">
+    <h2>Signup - Fill Details</h2>
+
+    <!-- Step 1: Upload Document -->
+    <form method="post" enctype="multipart/form-data" action="{% url 'user_details' %}">
+      {% csrf_token %}
+      <label>Upload Document (QR/ID):</label>
+      <input type="file" name="document" required>
+      <button type="submit" class="btn">Get Details</button>
+
+      <div style="text-align: center; margin-top: 10px;">
+          <a href="{% url 'manual_verification' %}">Facing Problem?</a>
+      </div>
+
+    </form>
+</body>
+</html>

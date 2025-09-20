@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - Details</title>
+  <link href="{% static 'authentication/css/user_details.css' %}" rel="stylesheet">
+</head>
+<body>
+  {% include "authentication/message.html" %}
+
+
+  <div class="container">
+    <h2>Signup - Fill Details</h2>
+    <!-- Step 2: Show extracted details + signup form -->
+    {% if details %}
+    <form method="post" action="{% url 'signup_data' %}">
+      {% csrf_token %}
+    
+      <input type="email" name="email_id" value="{{ details.emailId }}" readonly>
+      <input type="text" name="full_name" value="{{ details.name }}" readonly>
+      <input type="text" name="roll_no" value="{{ details.roll_no }}" readonly>
+      <input type="text" name="enrolment_no" required pattern = "CINCBTIM" value="{{ details.enrollment_no }}" readonly>
+      <input type="text" name="batch_year" value="{{ details.batch_year }}" readonly>
+      <input type="text" name="course_name" value="{{ details.course_name }}" readonly>
+      <input type="text" name="role" value="{{ details.role }}" readonly>
+
+      <button type="submit" class="btn">NEXT</button>
+
+    </form>
+    {% endif %}
+  </div>
+
+</body>
+</html>

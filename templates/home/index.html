@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cluster Innovation Centre</title>
+  <link rel="stylesheet" href="{% static 'home/css/index.css' %}">
+</head>
+<body>
+
+{% include "authentication/message.html" %}
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">Alumni Association Platform</div>
+    <div class="nav-links">
+      <a href="#about">About Us</a>
+      <a href="#people">People</a>
+      <a href="#events">Event</a>
+      <a href="#jobs">Job</a>
+      <a href="{% url 'login_view' %}">Login</a>
+    </div>
+  </nav>
+
+  <!-- PARALLAX HERO SECTION -->
+  <section class="parallax">
+    <div class="parallax-content">
+      <h1>Cluster Innovation Centre</h1>
+      <p>Connecting Alumni, Students and Innovators</p>
+      <a href="#about" class="btn-primary">Explore More</a>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+<section class="section section-alt" id="people">
+  <h2>Our Stars</h2>
+  <div class="carousel">
+    <div class="carousel-track">
+      {% for data in all_data %}
+      <div class="card">
+        <img src="{{ data.profile_pic.url }}" alt="{{ data.first_name }}">
+        <h3>{{ data.first_name }} {{ data.last_name }}</h3>
+        <p>{{ data.role }}</p>
+      </div>
+      {% endfor %}
+
+
+      {% for data in all_data %}
+      <div class="card">
+        <img src="{{ data.profile_pic.url }}" alt="{{ data.first_name }}">
+        <h3>{{ data.first_name }} {{ data.last_name }}</h3>
+        <p>{{ data.role }}</p>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- EVENTS SECTION -->
+  <section class="section" id="events">
+    <h2>Events</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="{% static 'home/images/event1.jpg' %}" alt="Event 1">
+        <h3>Innovation Summit</h3>
+        <p>Annual meet of CIC innovators and alumni.</p>
+      </div>
+      <div class="card">
+        <img src="{% static 'home/images/event2.jpg' %}" alt="Event 2">
+        <h3>Startup Workshop</h3>
+        <p>Hands-on session for budding entrepreneurs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 Cluster Innovation Centre | Designed with ❤️
+  </footer>
+
+</body>
+</html>

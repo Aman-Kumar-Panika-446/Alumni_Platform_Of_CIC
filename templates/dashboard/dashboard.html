@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  {% include "base/header.html" %}
+
+<div class="dashboard-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2 class="sidebar-title">Hello {{request.user.first_name}}</h2>
+      <nav>
+        <a href="{% url 'dashboard:dashboard' %}">Dashboard</a>
+        <a href="#">Experience</a>
+        <a href="#">Skills</a>
+        <a href="#">Job</a>
+        <a href="#">Event</a>
+        <a href="{% url 'dashboard:user_logout' %}">Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Profile Content -->
+    <div class="profile-card">
+
+      <!-- Left Column -->
+      <div class="profile-left">
+        {% if request.user.profile_pic %}
+          <img src="{{ request.user.profile_pic.url }}" class="profile-img" alt="Profile">
+        {% else %}
+          <img src="{% static 'dashboard/images/avatar.png' %}" class="profile-img" alt="Profile">
+        {% endif %}
+
+        <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+        <p class="muted">{{ request.user.role }}</p>
+
+        <!-- Update Button -->
+        <form method="post" enctype="multipart/form-data" class="profile-update-btn">
+          {% csrf_token %}
+          <button type="submit" class="upload-btn">Update</button>
+        </form>
+      </div>
+
+      <!-- Right Column -->
+      <div class="profile-right">
+        
+        <!-- Academic Details -->
+        <section class="info-section">
+          <h2>🎓 Academic Details</h2>
+          <form class="info-form">
+            <label>Email</label>
+            <input type="text" value="{{ request.user.email }}" readonly>
+
+            <label>Enrolment</label>
+            <input type="text" value="{{ request.user.enrolment_no }}" readonly>
+
+            <label>Course</label>
+            <input type="text" value="{{ request.user.course_name }}" readonly>
+
+            <label>Batch</label>
+            <input type="text" value="{{ request.user.starting_year }} - {{ request.user.ending_year }}" readonly>
+          </form>
+        </section>
+
+        <!-- Professional / Student Details -->
+        <section class="info-section">
+          <h2>💼 Professional Details <i class="fas fa-edit edit-icon"></i></h2>
+          {% if request.user.role == "Alumni" %}
+          <form class="info-form">
+            <label>Status</label>
+            <input type="text" value="{{ request.user.AlumniDetails.current_status }}" readonly>
+
+            <label>Location</label>
+            <input type="text" value="{{ request.user.AlumniDetails.location }}" readonly>
+
+            {% if request.user.AlumniDetails.current_status == "Job" %}
+              <label>Organization</label>
+              <input type="text" value="{{ request.user.AlumniDetails.WorkingProfessional.organization_name }}" readonly>
+
+              <label>Designation</label>
+              <input type="text" value="{{ request.user.AlumniDetails.WorkingProfessional.designation }}" readonly>
+
+            {% elif request.user.AlumniDetails.current_status == "Higher Studies" %}
+              <label>Institute</label>
+              <input type="text" value="{{ request.user.AlumniDetails.HigherStudies.organization_name }}" readonly>
+
+              <label>Domain</label>
+              <input type="text" value="{{ request.user.AlumniDetails.HigherStudies.domain }}" readonly>
+
+            {% elif request.user.AlumniDetails.current_status == "Startup" %}
+              <label>Startup Name</label>
+              <input type="text" value="{{ request.user.AlumniDetails.Startup.startup_name }}" readonly>
+
+              <label>About Startup</label>
+              <textarea readonly>{{ request.user.AlumniDetails.Startup.description }}</textarea>
+
+            {% else %}
+              <label>Description</label>
+              <textarea readonly>{{ request.user.AlumniDetails.Others.description }}</textarea>
+            {% endif %}
+          </form>
+          {% else %}
+          <form class="info-form">
+            <label>Current Year</label>
+            <input type="text" value="{{ request.user.StudentDetails.current_year }}" readonly>
+
+            <label>Hometown</label>
+            <input type="text" value="{{ request.user.StudentDetails.home_town }}" readonly>
+          </form>
+          {% endif %}
+        </section>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

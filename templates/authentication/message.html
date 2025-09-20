@@ -1,0 +1,68 @@
+{% if messages %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  {% for message in messages %}
+    Swal.fire({
+      icon: "{% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% else %}info{% endif %}",
+      title: "{{ message }}",
+      confirmButtonText: "Got it",
+      width: "420px",
+      padding: "2.2em",
+      color: "#1f2937",  // Dark text
+      customClass: {
+        popup: "{% if message.tags == 'error' %}alert-error{% elif message.tags == 'success' %}alert-success{% else %}alert-info{% endif %}",
+        title: 'modern-title',
+        confirmButton: "{% if message.tags == 'error' %}btn-error{% elif message.tags == 'success' %}btn-success{% else %}btn-info{% endif %}"
+      }
+    });
+  {% endfor %}
+</script>
+
+<style>
+  .modern-title {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    margin-top: 10px !important;
+  }
+
+  /* Background colors for alerts */
+  .alert-error {
+    background: linear-gradient(135deg, #fff5f5, #ffe5e5) !important; /* soft red */
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.25) !important;
+  }
+  .alert-success {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7) !important; /* soft green */
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(34, 197, 94, 0.25) !important;
+  }
+  .alert-info {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe) !important; /* soft blue */
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25) !important;
+  }
+
+  /* Button styles */
+  .btn-error {
+    background: #ef4444 !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    padding: 0.6em 1.6em !important;
+    font-weight: 600 !important;
+  }
+  .btn-success {
+    background: #22c55e !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    padding: 0.6em 1.6em !important;
+    font-weight: 600 !important;
+  }
+  .btn-info {
+    background: #3b82f6 !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    padding: 0.6em 1.6em !important;
+    font-weight: 600 !important;
+  }
+</style>
+{% endif %}

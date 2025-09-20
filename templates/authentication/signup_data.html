@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - Details</title>
+  <link href="{% static 'authentication/css/signup_data.css' %}" rel="stylesheet">
+  <script src="{% static 'authentication/js/signup_data.js' %}"></script>
+</head>
+<body>
+  {% include "authentication/message.html" %}
+
+
+  <div class="container">
+    <h2>Signup - Fill Details</h2>
+
+    <form method="post" enctype="multipart/form-data" action="{% url 'save_signup' %}">
+      {% csrf_token %}
+
+    {% if details %}
+    <form method="post" action="{% url 'save_signup' %}">
+      {% csrf_token %}
+
+      <input type="text" name="first_name" placeholder="first Name" required>
+      <input type="text" name="last_name" placeholder="last name" >
+
+        {% if details.role == "Alumni" %}
+        <input type="text" name="location" placeholder="Current Location" required>
+        <label>Career Path:</label>
+        <select name="career_path" id="career_path">
+          <option value="">-- Select --</option>
+          <option value="job">Job</option>
+          <option value="higher_studies">Higher Studies</option>
+          <option value="startup">Startup</option>
+          <option value="other">Other</option>
+        </select>
+
+        <div id="job_fields" style="display:none;">
+          <input type="text" name="organization" placeholder="Organization Name" required>
+          <input type="text" name="designation" placeholder="Current Designation" required>
+        </div>
+
+        <div id="higher_fields" style="display:none;">
+          <input type="text" name="organization" placeholder="Organization Name" required>
+          <input type="text" name="domain" placeholder="Enter the domain" required>
+        </div>
+        
+        <div id="startup_fields" style="display:none;">
+          <input type="text" name="startup_name" placeholder="Startup Name" required>
+          <input type="text" name="description" placeholder="Description" required>
+        </div>
+
+        <div id="other_fields" style="display:none;">
+          <input type="text" name="description" placeholder="Describe" required>
+        </div>
+
+       {% else %}
+        <input type="text" name="home_town" placeholder="Home Town" required>
+  
+        {% endif %}
+
+      <input type="text" name="username" placeholder="Create username" required>
+      <input type="text" name="password" placeholder="Create Password" required>
+      <button type="submit" class="btn">Signup</button>
+    </form>
+    {% endif %}
+  </div>
+
+</body>
+</html>

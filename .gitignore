@@ -209,3 +209,4 @@ __marimo__/
 
 # SECRET FILES
 authentication/utils/send_email.py
+media/

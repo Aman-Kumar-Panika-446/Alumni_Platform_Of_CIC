@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from datetime import datetime
 from .utils.qr_utils import read_qr_from_image, split_qr_data
-import random, re
+import random, re, string
 from .utils.send_email import send_otp_to_mail
 from django.contrib import messages
 from .models import * 
@@ -239,6 +239,12 @@ def save_signup(request):
             return render(request, "authentication/signup_data.html", {"details":details})
         
 
+        first_name = str(request.POST.get("first_name"))
+        first_name = string.capwords(first_name)
+
+        last_name = str(request.POST.get("last_name"))
+        last_name - string.capwords(last_name)
+
         academic_details = request.session.get("academic_details")
         role = academic_details['role']
         batch_year = academic_details["batch_year"]
@@ -246,8 +252,8 @@ def save_signup(request):
 
         user = CustomUser.objects.create_user(
                 # BUILT IN ATTRIBUTES
-                first_name = request.POST.get("first_name"),
-                last_name = request.POST.get("last_name"),
+                first_name = first_name,
+                last_name = last_name,
                 email=request.session.get("email"),
                 password=request.POST.get("password"),
                 username= request.POST.get("username"),

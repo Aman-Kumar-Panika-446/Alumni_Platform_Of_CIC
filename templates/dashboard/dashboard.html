@@ -19,7 +19,7 @@
       <h2 class="sidebar-title">Hello {{request.user.first_name}}</h2>
       <nav>
         <a href="{% url 'dashboard:dashboard' %}">Dashboard</a>
-        <a href="#">Experience</a>
+        <a href="{% url 'dashboard:view_experience' %}">Experience</a>
         <a href="#">Skills</a>
         <a href="#">Job</a>
         <a href="#">Event</a>

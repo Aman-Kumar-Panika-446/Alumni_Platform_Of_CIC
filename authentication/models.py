@@ -38,7 +38,7 @@ class CustomUser(AbstractUser):
     course_name = models.CharField(max_length=50, null= True, choices=course_choices) 
     profile_pic = models.ImageField(
         upload_to="profile_pictures/",
-        default="profile_pictures/default1.png", 
+        default="profile_pictures/default1.jpg", 
         blank=True,
         null=True
     )
@@ -49,6 +49,7 @@ class CustomUser(AbstractUser):
 # Student Details
 class StudentDetails(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='StudentDetails')
+    bio = models.TextField(max_length=300, blank=True, null= True)
     current_year = models.IntegerField()
     home_town = models.CharField(max_length=100)
 
@@ -65,12 +66,12 @@ class AlumniDetails(models.Model):
         ("Other", "Other")
     ]
 
-    alumni = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="AlumniDetails")
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="AlumniDetails")
     current_status = models.CharField(max_length=20, choices=status_choices) # WORKING PROF OR HIGHER STUDIES OR "OTHER" 
     location = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.alumni.first_name +" - "+ self.current_status
+        return self.user.first_name +" - "+ self.current_status
 
 
 # FOR WORKING PROFESSIONALS
@@ -80,7 +81,7 @@ class WorkingProfessional(models.Model):
     designation = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.alumni.alumni.first_name + " - "+ self.organization_name
+        return self.alumni.user.first_name + " - "+ self.organization_name
 
 # FOR HIGHER STUDIES
 class HigherStudies(models.Model):
@@ -89,17 +90,17 @@ class HigherStudies(models.Model):
     domain = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.alumni.alumni.first_name + " - " +  self.alumni.current_status
+        return self.alumni.user.first_name + " - " +  self.alumni.current_status
 
 
 # FOR STARTUP
 class Startup(models.Model):
     alumni = models.OneToOneField(AlumniDetails, on_delete=models.CASCADE, related_name="Startup")
     startup_name = models.CharField(max_length= 30, null= False, blank= False)
-    description = models.CharField(max_length=200, blank= True, null= True)
+    description = models.CharField(max_length=300)
 
     def __str__(self):
-        return self.alumni.alumni.first_name + " " + self.alumni.alumni.last_name + " - " + self.startup_name
+        return self.alumni.user.first_name + " " + self.alumni.user.last_name + " - " + self.startup_name
 
 # FOR OTHER
 class Others(models.Model):
@@ -107,7 +108,7 @@ class Others(models.Model):
     description = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.alumni.alumni.first_name + " " + self.alumni.alumni.last_name
+        return self.alumni.user.first_name + " " + self.alumni.user.last_name
 
 # FOR MANUAL VERIFICATION
 class ManualVerification(models.Model):
@@ -150,7 +151,26 @@ class Experience(models.Model):
     end_date = models.DateField(null= True, blank= True)
     location = models.CharField(max_length=100)
     location_type = models.CharField(max_length=30, choices= location_type_choices)
-    media = models.FileField(null= True,blank=True, upload_to="user_certificates")
+    media = models.FileField(null= True,blank=True, upload_to="user_experience")
 
     def __str__(self):
         return self.user.first_name + " - " + self.designation
+    
+
+# SKILLS OF USER
+class Skill(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="Skill")
+    
+    proficiency_choice = [
+        ("Basic", "Basic"),
+        ("Inter-mediate", "Inter-mediate"),
+        ("Advance", "Advance")
+    ]
+
+    skill_name = models.CharField(max_length=50)
+    proficiency = models.CharField(max_length=15, choices=proficiency_choice)
+    endorsement = models.IntegerField(null= True, blank= True)
+    media = models.FileField(null= True, blank= True, upload_to="user_skills")
+
+    def __str__(self):
+        return self.user.first_name + " " + self.user.last_name + " - " + self.skill_name

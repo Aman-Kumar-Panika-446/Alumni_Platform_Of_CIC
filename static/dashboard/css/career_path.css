@@ -1,0 +1,145 @@
+/* ===========================
+   Reset & Basic Styling
+=========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+    body {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #a8edea, #fed6e3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    /* ===========================
+       Container / Glass Card
+    =========================== */
+    .container {
+        background: rgba(20, 25, 40, 0.6); /* darker, richer glass */
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 40px 30px;
+        max-width: 450px;
+        width: 100%;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-align: center;
+        color: #ffffff;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    /* ===========================
+       Heading
+    =========================== */
+    .container h2 {
+        margin-bottom: 30px;
+        font-size: 1.8rem;
+        color: #fff;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    /* ===========================
+       Form Elements
+    =========================== */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input, select {
+        padding: 12px 15px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        outline: none;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+        width: 400px;
+    }
+
+    input::placeholder, select {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    input:focus, select:focus {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: #fff;
+    }
+
+
+.navigate {
+  display: flex;
+  justify-content: flex-start; /* move buttons to the right */
+  gap: 10px; /* spacing between buttons */
+  margin-top: 15px;
+}
+
+.cancel-btn, .save-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Cancel button style */
+.cancel-btn {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.cancel-btn:hover {
+  background-color: #ffffff;
+  color: black;
+}
+
+/* Save button style */
+.save-btn {
+  background-color: #000000;
+  color: #fff;
+  border: none;
+}
+
+.save-btn:hover {
+  background-color: #ffffff;
+  color: black;
+}
+
+
+
+    /* ===========================
+       Conditional Fields (Alumni)
+    =========================== */
+    #job_fields, #higher_fields, #other_fields, #startup_fields {
+        display: none;
+    }
+
+    /* ===========================
+       Animations
+    =========================== */
+    @keyframes fadeIn {
+        0% { opacity: 0; transform: translateY(-20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===========================
+       Responsive
+    =========================== */
+    @media (max-width: 500px) {
+        .container {
+            padding: 30px 20px;
+        }
+        input, select, .btn {
+            font-size: 0.9rem;
+        }
+    }

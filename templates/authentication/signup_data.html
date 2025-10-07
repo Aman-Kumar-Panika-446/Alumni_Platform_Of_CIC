@@ -17,10 +17,7 @@
 
     <form method="post" enctype="multipart/form-data" action="{% url 'save_signup' %}">
       {% csrf_token %}
-
-    {% if details %}
-    <form method="post" action="{% url 'save_signup' %}">
-      {% csrf_token %}
+      {% if details %}
 
       <input type="text" name="first_name" placeholder="first Name" required>
       <input type="text" name="last_name" placeholder="last name" >
@@ -28,7 +25,7 @@
         {% if details.role == "Alumni" %}
         <input type="text" name="location" placeholder="Current Location" required>
         <label>Career Path:</label>
-        <select name="career_path" id="career_path">
+        <select name="career_path" id="career_path" required>
           <option value="">-- Select --</option>
           <option value="job">Job</option>
           <option value="higher_studies">Higher Studies</option>
@@ -36,23 +33,27 @@
           <option value="other">Other</option>
         </select>
 
+        <!-- Job Fields -->
         <div id="job_fields" style="display:none;">
-          <input type="text" name="organization" placeholder="Organization Name" required>
-          <input type="text" name="designation" placeholder="Current Designation" required>
+          <input type="text" name="job_organization" placeholder="Organization Name">
+          <input style="margin-top:20px" type="text" name="job_designation" placeholder="Current Designation">
         </div>
 
+        <!-- Higher Studies Fields -->
         <div id="higher_fields" style="display:none;">
-          <input type="text" name="organization" placeholder="Organization Name" required>
-          <input type="text" name="domain" placeholder="Enter the domain" required>
+          <input type="text" name="higher_organization" placeholder="Organization Name">
+          <input style="margin-top:20px" type="text" name="higher_domain" placeholder="Enter the domain">
         </div>
         
+        <!-- Startup Fields -->
         <div id="startup_fields" style="display:none;">
-          <input type="text" name="startup_name" placeholder="Startup Name" required>
-          <input type="text" name="description" placeholder="Description" required>
+          <input type="text" name="startup_name" placeholder="Startup Name">
+          <input style="margin-top:20px" type="text" name="startup_description" placeholder="Description">
         </div>
 
+        <!-- Other Fields -->
         <div id="other_fields" style="display:none;">
-          <input type="text" name="description" placeholder="Describe" required>
+          <input type="text" name="other_description" placeholder="Describe">
         </div>
 
        {% else %}

@@ -4,28 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <title>User Dashboard</title>
-  <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'dashboard/css/dashboard.css' %}">
 </head>
 <body>
-
+  {% include "base/message.html" %}
   <!-- NAVBAR -->
   {% include "base/header.html" %}
 
-<div class="dashboard-container">
-    
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <h2 class="sidebar-title">Hello {{request.user.first_name}}</h2>
-      <nav>
-        <a href="{% url 'dashboard:dashboard' %}">Dashboard</a>
-        <a href="{% url 'dashboard:view_experience' %}">Experience</a>
-        <a href="#">Skills</a>
-        <a href="#">Job</a>
-        <a href="#">Event</a>
-        <a href="{% url 'dashboard:user_logout' %}">Logout</a>
-      </nav>
-    </aside>
+  <!-- SIDEBAR-->
+  {% include "base/dashboard/sidebar.html" %}
 
     <!-- Profile Content -->
     <div class="profile-card">
@@ -38,13 +26,15 @@
           <img src="{% static 'dashboard/images/avatar.png' %}" class="profile-img" alt="Profile">
         {% endif %}
 
-        <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
+        <h2>{{ request.user.first_name | title }} {{ request.user.last_name | title}}</h2>
         <p class="muted">{{ request.user.role }}</p>
 
         <!-- Update Button -->
-        <form method="post" enctype="multipart/form-data" class="profile-update-btn">
+        <form method="post" enctype="multipart/form-data" class="profile-update-btn" action = "{% url 'dashboard:update_profile_pic' %}">
           {% csrf_token %}
-          <button type="submit" class="upload-btn">Update</button>
+          <input type="file" id="profile_pic" name="profile_pic" style="display:none;" accept="image/*" onchange="this.form.submit();">
+          <button type="button" class="upload-btn" onclick="document.getElementById('profile_pic').click();">Update Image</button>
+
         </form>
       </div>
 
@@ -71,7 +61,7 @@
 
         <!-- Professional / Student Details -->
         <section class="info-section">
-          <h2>💼 Professional Details <i class="fas fa-edit edit-icon"></i></h2>
+          <h2>💼 Professional Details <a class="edit-btn" href="{% url 'dashboard:edit_current_status' %}"><i class="fas fa-edit"></i></a></h2>
           {% if request.user.role == "Alumni" %}
           <form class="info-form">
             <label>Status</label>
@@ -106,6 +96,7 @@
               <textarea readonly>{{ request.user.AlumniDetails.Others.description }}</textarea>
             {% endif %}
           </form>
+          
           {% else %}
           <form class="info-form">
             <label>Current Year</label>
@@ -113,6 +104,9 @@
 
             <label>Hometown</label>
             <input type="text" value="{{ request.user.StudentDetails.home_town }}" readonly>
+ 
+            <label>Bio</label>
+            <textarea readonly>{{ request.user.StudentDetails.bio }}</textarea>
           </form>
           {% endif %}
         </section>

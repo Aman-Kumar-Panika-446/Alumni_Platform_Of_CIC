@@ -46,7 +46,7 @@ class CustomUserAdmin(UserAdmin):
     
     def profile_pic_preview(self, obj):
         if obj.profile_pic:
-            return format_html('<img src="{}" width="40" height="40" style="border-radius:50%;" />', obj.profile_pic.url)
+            return format_html('<img src="{}" width="40" height="40" style="border-radius:50%; object-fit: cover;" />', obj.profile_pic.url)
         return "No Image"
 
 
@@ -62,7 +62,7 @@ class CustomUserAdmin(UserAdmin):
 
 # AlumniDetails Admin (for subcategories) 
 class AlumniDetailsAdmin(admin.ModelAdmin):
-    list_display = ("alumni", "current_status", "location")
+    list_display = ("user", "current_status", "location")
 
     def get_inlines(self, request, obj=None):
         if obj:  # Only show after an alumni exists
@@ -86,3 +86,4 @@ admin.site.register(HigherStudies)
 admin.site.register(Startup)
 admin.site.register(Others)
 admin.site.register(Experience)
+admin.site.register(Skill)

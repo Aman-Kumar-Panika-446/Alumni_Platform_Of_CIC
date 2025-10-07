@@ -1,0 +1,133 @@
+/* ==============================
+   Experience Section - Scoped to .main-content
+============================== */
+
+/* Main content container */
+.main-content {
+  flex-grow: 1;
+  margin-left: 250px;
+  margin-top: -15px;
+  font-family: sans-serif;
+}
+
+/* Experience Section */
+.main-content .experience-section {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+/* Add, Save, Cancel Buttons */
+.main-content .add-btn,
+.main-content .save-btn,
+.main-content .cancel-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  font-family: inherit; /* inherit from main-content */
+}
+
+.main-content .add-btn,
+.main-content .save-btn {
+  background: #0a66c2;
+  color: #fff;
+}
+
+.main-content .add-btn:hover,
+.main-content .save-btn:hover {
+  background: #004182;
+}
+
+.main-content .cancel-btn {
+  background: #ccc;
+  color: #000;
+  border-radius: 6px;
+}
+
+.main-content .cancel-btn:hover {
+  background: #999;
+}
+
+/* Experience Cards */
+.main-content .experience-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-family: inherit;
+}
+
+.main-content .exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Buttons container inside header */
+.main-content .exp-header .exp-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Edit Button */
+.main-content .edit-btn {
+  background-color: transparent;
+  color: #0a66c2;
+  border: 1px solid #0a66c2;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.main-content .edit-btn:hover {
+  background-color: #0a66c2;
+  color: #fff;
+}
+
+/* Delete Button */
+.main-content .delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: inherit;
+}
+
+.main-content .delete-btn:hover {
+  background-color: #b52a37;
+}
+
+/* Text inside cards */
+.main-content .org,
+.main-content .duration,
+.main-content .location,
+.main-content .description {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+  font-family: inherit;
+}
+
+/* No experience message */
+.main-content .no-exp {
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  margin-top: 20px;
+  font-family: inherit;
+}

@@ -1,0 +1,40 @@
+
+/* ==============================
+   Dashboard Layout
+============================== */
+.dashboard-container {
+  display: flex;
+  margin: 20px;
+  padding-top: 85px; /* offset for fixed navbar */
+  position: relative;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  height: 525px;
+  position: fixed;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 15px 0;
+  color: #555;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.sidebar nav a:hover {
+  color: #0a66c2;
+}
+

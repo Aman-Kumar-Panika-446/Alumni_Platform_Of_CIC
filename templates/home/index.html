@@ -5,32 +5,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cluster Innovation Centre</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'home/css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'base/header.css' %}">
 </head>
 <body>
 
 {% include "authentication/message.html" %}
 
   <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="logo">Alumni Association Platform</div>
-    <div class="nav-links">
-      <a href="#about">About Us</a>
-      <a href="#people">People</a>
-      <a href="#events">Event</a>
-      <a href="#jobs">Job</a>
-      <a href="{% url 'login_view' %}">Login</a>
-    </div>
-  </nav>
+  <header class="navbar">
+  <!-- Left Logo -->
+  <div class="logo">
+    <h2>Alumni Association Platform</h2>
+  </div>
 
-  <!-- PARALLAX HERO SECTION -->
-  <section class="parallax">
-    <div class="parallax-content">
-      <h1>Cluster Innovation Centre</h1>
-      <p>Connecting Alumni, Students and Innovators</p>
-      <a href="#about" class="btn-primary">Explore More</a>
-    </div>
-  </section>
+  <!-- Right Menu -->
+  <nav class="menu">
+    <a href="#" class="active">
+      <i class="fas fa-home"></i>
+      <span>About Us</span>
+    </a>
+
+    <a href="#">
+      <i class="fas fa-users"></i>
+      <span>People</span>
+    </a>
+
+    <a href="#">
+      <i class="fas fa-calendar-alt"></i>
+      <span>Events</span>
+    </a>
+
+    <a href="#">
+      <i class="fas fa-briefcase"></i>
+      <span>Jobs</span>
+    </a>
+
+    <a href="{% url 'login_view' %}">
+      <i class="fas fa-sign-in-alt"></i>
+      <span>Login</span>
+    </a>
+
+  </nav>
+</header>
+
+ <!-- FLOATING ALUMNI SECTION -->
+<section id="floating-alumni-section">
+  <div id="floating-alumni"></div>
+</section>
+
 
   <!-- ABOUT SECTION -->
 <section class="section section-alt" id="people">
@@ -40,8 +64,8 @@
       {% for data in all_data %}
       <div class="card">
         <img src="{{ data.profile_pic.url }}" alt="{{ data.first_name }}">
-        <h3>{{ data.first_name }} {{ data.last_name }}</h3>
-        <p>{{ data.role }}</p>
+        <h3>{{ data.first_name | title }} {{ data.last_name| title }}</h3>
+        <p>{{ data.role | title }}</p>
       </div>
       {% endfor %}
 
@@ -49,8 +73,8 @@
       {% for data in all_data %}
       <div class="card">
         <img src="{{ data.profile_pic.url }}" alt="{{ data.first_name }}">
-        <h3>{{ data.first_name }} {{ data.last_name }}</h3>
-        <p>{{ data.role }}</p>
+        <h3>{{ data.first_name | title}} {{ data.last_name | title}}</h3>
+        <p>{{ data.role | title}}</p>
       </div>
       {% endfor %}
 
@@ -80,6 +104,15 @@
   <footer>
     &copy; 2025 Cluster Innovation Centre | Designed with ❤️
   </footer>
+<script>
+  // Create a JS array from Django data
+  const alumniData = [
+    {% for data in all_data %}
+      "{{ data.profile_pic.url }}"{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
+</script>
+<script src="{% static 'home/js/index.js' %}"></script>
 
 </body>
 </html>

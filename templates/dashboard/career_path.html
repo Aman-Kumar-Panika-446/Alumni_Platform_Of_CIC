@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Path</title>
+  <link href="{% static 'dashboard/css/career_path.css' %}" rel="stylesheet">
+  <script src="{% static 'dashboard/js/career_path.js' %}"></script>
+</head>
+<body>
+  {% include "base/message.html" %}
+
+  <div class="container">
+
+    <form method="post" action="{% url 'dashboard:edit_current_status'%}">
+      {% csrf_token %}
+      
+    {% if user_data.role == "Alumni" %}
+    
+    <h2>Update Your Current Status</h2>
+      <label>Choose Career Path</label>
+      <select name="career_path" id="career_path">
+        <option value="">-- Select --</option>
+        <option value="job">Job</option>
+        <option value="higher_studies">Higher Studies</option>
+        <option value="startup">Startup</option>
+        <option value="other">Other</option>
+      </select>
+      
+      <!-- Job Fields -->
+      <div id="job_fields" style="display:none;">
+        <input type="text" name="job_organization" placeholder="Organization Name">
+        <input style="margin-top:20px" type="text" name="job_designation" placeholder="Current Designation">
+      </div>
+
+      <!-- Higher Studies Fields -->
+      <div id="higher_fields" style="display:none;">
+        <input type="text" name="higher_organization" placeholder="Organization Name">
+        <input style="margin-top:20px" type="text" name="higher_domain" placeholder="Enter the domain">
+      </div>
+      
+      <!-- Startup Fields -->
+      <div id="startup_fields" style="display:none;">
+        <input type="text" name="startup_name" placeholder="Startup Name">
+        <input style="margin-top:20px" type="text" name="startup_description" placeholder="Description">
+      </div>
+
+      <!-- Other Fields -->
+      <div id="other_fields" style="display:none;">
+        <input type="text" name="other_description" placeholder="Describe">
+      </div>
+
+      <!-- Current Location Field -->
+      <input type="text" name="location" placeholder="Current Location" required>
+      
+      {% else %}
+
+        <h2>Update Your Bio</h2>
+        <input type="text" name="home_town" value="{{ user_data.StudentDetails.home_town }}" required>
+        <input type="text" name="bio" value = "{{user_data.StudentDetails.bio}}" placeholder="Bio" required>
+
+      {% endif %}
+
+      <div class="navigate">
+          <a class="cancel-btn" href="{% url 'dashboard:dashboard' %}">Cancel</a>
+          <button class="save-btn" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

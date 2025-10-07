@@ -8,6 +8,7 @@ from django.contrib import messages
 from .models import * 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 
 def login_view(request):
@@ -186,7 +187,7 @@ def user_details(request):
             #CHECKING WHETHER WE GET DATA OR NOT
             if qr_text is None:
                 messages.error(request, "Sorry, Unable to find details")
-                return render(request,"authentication/signup_data.html")
+                return redirect("upload_document")
             
             name, roll_no, enrollment,starting_year, ending_year, role = split_qr_data(qr_text)
             
@@ -227,25 +228,26 @@ def signup_data(request):
 
 def save_signup(request):
     if request.method == "POST":
+
+        # SECURITY CHECK
         academic_details = request.session.get("academic_details")
-        first_name = str(request.POST.get("first_name")).lower()
-        last_name = str(request.POST.get("last_name")).lower()
+        first_name = str(request.POST.get("first_name")).strip().lower()
+        last_name = str(request.POST.get("last_name")).strip().lower()
         last_name = re.sub("[^a-z]",'',last_name)
         full_name = str(academic_details['name']).lower()
 
+        # VERIFYING THE USER'S NAME
         if(first_name+last_name != full_name):
             messages.error(request,"Your first & last name should match with extracted data")
-            details = request.session.get("academic_details")
-            return render(request, "authentication/signup_data.html", {"details":details})
+            return render(request, "authentication/signup_data.html", {"details":academic_details})
         
+        # CHECKING FOR USERNAME
+        username= request.POST.get("username")
+        user_data = CustomUser.objects.filter(username = username).exists()
+        if user_data:
+            messages.error(request, "Try some another unique username.")
+            return render(request, "authentication/signup_data.html", {"details":academic_details})
 
-        first_name = str(request.POST.get("first_name"))
-        first_name = string.capwords(first_name)
-
-        last_name = str(request.POST.get("last_name"))
-        last_name - string.capwords(last_name)
-
-        academic_details = request.session.get("academic_details")
         role = academic_details['role']
         batch_year = academic_details["batch_year"]
         start, end = batch_year.split("-")
@@ -268,36 +270,43 @@ def save_signup(request):
             )
 
         if role == "Alumni":
+
+            status_choices = {
+                "job": "Job",
+                "higher_studies": "Higher Studies",
+                "startup": "Startup",
+                "other": "Other"
+            }
+
             career_path = request.POST.get("career_path")
             alumni = AlumniDetails.objects.create(
-                alumni = user,
-                current_status = career_path,
+                user = user,
+                current_status = status_choices[career_path],
                 location = request.POST.get("location")
             )
 
             if career_path == "job":
                 WorkingProfessional.objects.create(
                     alumni = alumni,
-                    organization_name=request.POST.get("organization"),
-                    designation=request.POST.get("designation")
+                    organization_name=request.POST.get("job_organization"),
+                    designation=request.POST.get("job_designation")
                 )
             elif career_path == "higher_studies":
                 HigherStudies.objects.create(
                     alumni = alumni,
-                    organization_name=request.POST.get("organization"),
-                    domain = request.POST.get("domain")
+                    organization_name=request.POST.get("higher_organization"),
+                    domain = request.POST.get("higher_domain")
                 )
             elif career_path == "startup":
                 Startup.objects.create(
                     alumni = alumni,
                     startup_name=request.POST.get("startup_name"),
-                    description = request.POST.get("description")
+                    description = request.POST.get("startup_description")
                 )
             else:
                 Others.objects.create(
                     alumni = alumni,
-                    description = request.POST.get("description")
-                )
+                    description = request.POST.get("other_description")                )
         else:
             current_year = datetime.now().year
             current_month = datetime.now().month
@@ -314,7 +323,7 @@ def save_signup(request):
             )
         messages.success(request, "Your account has been created.")
         login(request, user)
-        return render(request, "authentication/home.html")
+        return redirect("home_page")
 
     return redirect('email_verification') 
 

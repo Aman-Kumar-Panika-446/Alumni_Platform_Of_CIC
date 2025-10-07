@@ -1,6 +1,5 @@
 * {
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
 }
 
 html, body {
@@ -23,6 +22,7 @@ html, body {
   z-index: 1000;
   position: fixed;
   top: 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Logo */

@@ -1,0 +1,132 @@
+/* ============================
+   General Page Styling
+   ============================ */
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: #c9d6ee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* ============================
+   Form Container
+   ============================ */
+.report-container {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+/* ============================
+   Heading
+   ============================ */
+.report-container h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* ============================
+   Form Fields
+   ============================ */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Label */
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Textarea Input */
+.form-control {
+    width: 370px;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+    transition: border 0.3s, box-shadow 0.3s;
+    margin-top: 10px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* ============================
+   Buttons
+   ============================ */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+/* Submit button */
+.btn-submit {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+    transform: scale(1.02);
+}
+
+/* Cancel button */
+.cancel-btn {
+    background-color: #f1f1f1;
+    color: #333;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.cancel-btn:hover {
+    background-color: #e0e0e0;
+    color: #000;
+    transform: scale(1.02);
+}
+
+/* ============================
+   Responsive Design
+   ============================ */
+@media (max-width: 480px) {
+    .report-container {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-submit,
+    .cancel-btn {
+        width: 100%;
+        text-align: center;
+    }
+}

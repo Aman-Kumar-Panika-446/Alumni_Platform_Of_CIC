@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create / Edit Event</title>
+  <link rel="stylesheet" href="{% static 'events/css/event_form.css' %}">
+</head>
+<body>
+
+{% include "base/message.html" %}
+
+<div class="form-container">
+  <form method="post" enctype="multipart/form-data" class="event-form">
+    {% csrf_token %}
+    <h2>{{ title }}</h2>
+
+    <!-- Title -->
+    <div class="form-group">
+      <label>Event Title*</label>
+      {{ form.title }}
+      <div class="error">{{ form.title.errors }}</div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label>Description</label>
+      {{ form.description }}
+      <div class="error">{{ form.description.errors }}</div>
+    </div>
+
+    <!-- Venue -->
+    <div class="form-group">
+      <label>Time</label>
+      {{ form.time }}
+      <div class="error">{{ form.time.errors }}</div>
+    </div>
+
+ 
+    <!-- Venue -->
+    <div class="form-group">
+      <label>Venue*</label>
+      {{ form.venue }}
+      <div class="error">{{ form.venue.errors }}</div>
+    </div>
+
+    <!-- Start Date -->
+    <div class="form-group">
+      <label>Start Date*</label>
+      {{ form.start_date }}
+      <div class="error">{{ form.start_date.errors }}</div>
+    </div>
+
+    <!-- End Date -->
+    <div class="form-group">
+      <label>End Date</label>
+      {{ form.end_date }}
+      <div class="error">{{ form.end_date.errors }}</div>
+    </div>
+
+    <!-- Image -->
+    <div class="form-group">
+      <label>Event Image</label>
+      {{ form.image }}
+      <div class="error">{{ form.image.errors }}</div>
+
+      <div class="image-preview">
+        <img id="preview-img" src="{{ event.image.url }}" alt="Preview">
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-group">
+      <a href="{{ previous_url }}" class="cancel-btn">Cancel</a>
+      <button type="submit" class="btn-submit">Save</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

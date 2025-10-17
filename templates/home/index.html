@@ -12,71 +12,85 @@
 <body>
 
 {% include "authentication/message.html" %}
-
-  <!-- NAVBAR -->
-  <header class="navbar">
-  <!-- Left Logo -->
-  <div class="logo">
-    <h2>Alumni Association Platform</h2>
-  </div>
-
-  <!-- Right Menu -->
-  <nav class="menu">
-    <a href="#" class="active">
-      <i class="fas fa-home"></i>
-      <span>About Us</span>
-    </a>
-
-    <a href="#">
-      <i class="fas fa-users"></i>
-      <span>People</span>
-    </a>
-
-    <a href="#">
-      <i class="fas fa-calendar-alt"></i>
-      <span>Events</span>
-    </a>
-
-    <a href="#">
-      <i class="fas fa-briefcase"></i>
-      <span>Jobs</span>
-    </a>
-
-    <a href="{% url 'login_view' %}">
-      <i class="fas fa-sign-in-alt"></i>
-      <span>Login</span>
-    </a>
-
-  </nav>
-</header>
+<!-- NAVBAR -->
+{% include "base/header.html" %}
 
  <!-- FLOATING ALUMNI SECTION -->
-<section id="floating-alumni-section">
-  <div id="floating-alumni"></div>
-</section>
+<div class = "animation-box">
+
+   <div class="center-logo">
+    <img src="{% static 'home/images/cic.png' %}" alt="CICian">
+  </div>
+  
+  <div class="benzene-container" id="benzene">
+  </div>
+
+  <!-- Popup Modal -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <img id="popup-img" src="" alt="Alumni">
+      <h2 id="popup-name"></h2>
+      <p id="popup-batch"></p>
+      <p id="popup-role"></p>
+      <button class="close-btn" id="closePopup">Close</button>
+    </div>
+  </div>
+
+</div>
 
 
-  <!-- ABOUT SECTION -->
 <section class="section section-alt" id="people">
   <h2>Our Stars</h2>
   <div class="carousel">
     <div class="carousel-track">
+
       {% for data in all_data %}
       <div class="card">
         <img src="{{ data.profile_pic.url }}" alt="{{ data.first_name }}">
         <h3>{{ data.first_name | title }} {{ data.last_name| title }}</h3>
-        <p>{{ data.role | title }}</p>
+        <p>{{ data.role | title }} – {{data.ending_year}}</p>
+        
+        {% if data.AlumniDetails.current_status == "Job"%}
+        <p>{{ data.AlumniDetails.WorkingProfessional.designation}} @{{data.AlumniDetails.WorkingProfessional.organization_name}}</p>
+        
+        {% elif data.AlumniDetails.current_status == "Higher Studies" %}
+        <p>Pursuing {{ data.AlumniDetails.HigherStudies.domain}} From {{data.AlumniDetails.HigherStudies.organization_name}}</p>
+       
+        {% elif data.AlumniDetails.current_status == "Startup" %}
+        <p>CEO @{{ data.AlumniDetails.Startup.startup_name}}</p>
+       
+        {% elif data.AlumniDetails.current_status == "Other" %}
+        <p>{{ data.AlumniDetails.Others.description}}</p>
+       
+        {% endif%}
+
       </div>
       {% endfor %}
-
-
+      
+    
       {% for data in all_data %}
       <div class="card">
         <img src="{{ data.profile_pic.url }}" alt="{{ data.first_name }}">
-        <h3>{{ data.first_name | title}} {{ data.last_name | title}}</h3>
-        <p>{{ data.role | title}}</p>
+        <h3>{{ data.first_name | title }} {{ data.last_name| title }}</h3>
+        <p>{{ data.role | title }} – {{data.ending_year}}</p>
+        
+        {% if data.AlumniDetails.current_status == "Job"%}
+        <p>{{ data.AlumniDetails.WorkingProfessional.designation}} @{{data.AlumniDetails.WorkingProfessional.organization_name}}</p>
+        
+        {% elif data.AlumniDetails.current_status == "Higher Studies" %}
+        <p>Pursuing {{ data.AlumniDetails.HigherStudies.domain}} From {{data.AlumniDetails.HigherStudies.organization_name}}</p>
+       
+        {% elif data.AlumniDetails.current_status == "Startup" %}
+        <p>CEO @{{ data.AlumniDetails.Startup.startup_name}}</p>
+       
+        {% elif data.AlumniDetails.current_status == "Other" %}
+        <p>{{ data.AlumniDetails.Others.description}}</p>
+       
+        {% endif%}
+
       </div>
       {% endfor %}
+
 
     </div>
   </div>
@@ -86,32 +100,55 @@
   <!-- EVENTS SECTION -->
   <section class="section" id="events">
     <h2>Events</h2>
-    <div class="cards">
-      <div class="card">
-        <img src="{% static 'home/images/event1.jpg' %}" alt="Event 1">
-        <h3>Innovation Summit</h3>
-        <p>Annual meet of CIC innovators and alumni.</p>
+    <div class="carousel">
+    <div class="carousel-track">
+
+      {% for event in events %}
+    <a href = "{% url 'events:event_detail' event.pk %}" class = "card-link">
+      <div class="event-card">
+        <img src="{{ event.image.url }}" alt="event">
+        <h3>{{ event.title | title }}</h3>
+        <p>Posted By: {{ event.user.first_name| title }} {{event.user.last_name | title}}</p>
+      
       </div>
-      <div class="card">
-        <img src="{% static 'home/images/event2.jpg' %}" alt="Event 2">
-        <h3>Startup Workshop</h3>
-        <p>Hands-on session for budding entrepreneurs.</p>
+      {% endfor %}
+    </a>
+      
+      {% for event in events %}
+      <a href = "{% url 'events:event_detail' event.pk %}" class = "card-link">
+
+      <div class="event-card">
+        <img src="{{ event.image.url }}" alt="event">
+        <h3>{{ event.title | title }}</h3>
+        <p>Posted By: {{ event.user.first_name| title }} {{event.user.last_name | title}}</p>
+      
       </div>
+    </a>
+      {% endfor %}
+      
     </div>
+  </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
     &copy; 2025 Cluster Innovation Centre | Designed with ❤️
   </footer>
+
 <script>
-  // Create a JS array from Django data
-  const alumniData = [
-    {% for data in all_data %}
-      "{{ data.profile_pic.url }}"{% if not forloop.last %},{% endif %}
-    {% endfor %}
-  ];
+const alumniData = [
+  {% for data in all_data %}
+  {
+    src: "{{ data.profile_pic.url }}",
+    name: "{{ data.first_name }} {{ data.last_name }}",
+    batch: "{{ data.ending_year }}",
+    dept: "{{ data.AlumniDetails.department|default:'N/A' }}",
+    role: "{{ data.role|title }}"
+  }{% if not forloop.last %},{% endif %}
+  {% endfor %}
+];
 </script>
+
 <script src="{% static 'home/js/index.js' %}"></script>
 
 </body>

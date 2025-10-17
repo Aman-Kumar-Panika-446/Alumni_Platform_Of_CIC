@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('',include('authentication.urls')),
     path("dashboard/", include(("dashboard.urls", "dashboard"), namespace="dashboard")),
+    path("events/", include(("events.urls", "events"), namespace="events"))
 
 ]
 

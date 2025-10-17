@@ -1,5 +1,4 @@
 /* GENERAL RESET */
-
 * {
     margin: 0;
     padding: 0;
@@ -44,7 +43,7 @@
 }
 
 
-.card {
+.card, .event-card {
   background: white;
   border-radius: 20px;
   width: 250px;
@@ -53,7 +52,10 @@
   text-align: center;
 }
 
-.card img {
+.event-card{
+  height: 270px;
+}
+.card img, .event-card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
@@ -67,17 +69,20 @@
 }
 
 
-.card h3 {
+.card h3, .event-card h3 {
   margin: 1rem 0 0.5rem;
   color: #6C63FF;
 }
 
-.card p {
+.card p, .event-card p {
   color: #555;
   margin-bottom: 1rem;
   padding: 0 1rem;
 }
 
+.card-link {
+  text-decoration: none;
+}
 
 
 /* FOOTER */
@@ -88,36 +93,177 @@ footer {
     text-align: center;
 }
 
-/* Floating Alumni Section */
-#floating-alumni-section {
+/* Animation Section */
+/* Animation box below header */
+.animation-box {
   position: relative;
   width: 100%;
-  height: 600px; /* Fixed height for floating area */
-  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  height: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 65px; /* Push below header */
   overflow: hidden;
-  margin-top: 67px;
+  background: radial-gradient(circle at center, #0f172a, #020617);
+
 }
 
-#floating-alumni {
+/* Benzene container */
+.benzene-container {
   position: relative;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* Allow clicks through */
+  width: 400px;
+  height: 400px;
+  animation: rotateRing 20s linear infinite;
+  transform-origin: center;
 }
 
-.alumni {
+/* Hexagon outline */
+.benzene-container::before {
+  content: "";
   position: absolute;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  opacity: 0;
-  transition: transform linear, opacity 2s ease;
+  inset: 0;
+  border: 3px solid cyan;
+  clip-path: polygon(
+    50% 0%,
+    93% 25%,
+    93% 75%,
+    50% 100%,
+    7% 75%,
+    7% 25%
+  );
+  box-shadow: 0 0 15px cyan;
 }
 
-.alumni img {
+/* Alumni atoms */
+.atom {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid cyan;
+  overflow: hidden;
+  box-shadow: 0 0 15px cyan;
+  cursor: pointer;
+  transform-origin: center;
+  animation: counterRotate 20s linear infinite;
+  transition: transform 0.3s ease;
+}
+
+.atom img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+}
+
+.atom:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 25px #00ffff, 0 0 35px #00ffff;
+  z-index: 2;
+}
+
+/* Static center logo */
+.center-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00bcd4, #2196f3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px cyan;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  z-index: 5;
+  animation: none !important;
+}
+
+.center-logo img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Animations */
+@keyframes rotateRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes counterRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+/* Popup modal */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.popup.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup-content {
+  background: #0f172a;
+  padding: 25px 35px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px cyan;
+  text-align: center;
+  width: 300px;
+  border: 2px solid cyan;
+}
+
+.popup-content img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid cyan;
+  margin-bottom: 15px;
+  object-fit: cover;
+}
+
+.popup-content h2 {
+  color: cyan;
+  margin-bottom: 10px;
+}
+
+.popup-content p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  margin: 4px 0;
+}
+
+.close-btn {
+  margin-top: 15px;
+  padding: 8px 18px;
+  background: cyan;
+  color: #0f172a;
+  font-weight: 600;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close-btn:hover {
+  background: #00ffff;
+  transform: scale(1.05);
 }

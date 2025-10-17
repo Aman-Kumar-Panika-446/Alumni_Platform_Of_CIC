@@ -6,6 +6,7 @@ from authentication.urls import *
 from authentication.models import *
 from datetime import datetime
 from .forms import ExperienceForm, SkillForm
+from events.models import Event
 
 # Create your views here.
 
@@ -217,3 +218,10 @@ def delete_skill(request, pk):
         skill.delete()
         messages.success(request, "Your Skill has been deleted.")
         return redirect("dashboard:view_skills")
+
+
+# HANDLING EVENT SECTION
+@login_required
+def view_events(request):
+    events = Event.objects.filter(user = request.user)
+    return render(request, "dashboard/events.html", {"events":events})

@@ -23,6 +23,9 @@ urlpatterns = [
     path('edit_skill/<int:pk>/', views.edit_skill, name = "edit_skill"),
     path('delete_skill/<int:pk>/', views.delete_skill, name = "delete_skill"),
 
+    # DEALING WITH EVENT
+    path('view_events/', views.view_events, name = "view_events"),
+
     # LOGOUT
     path('logout/', views.user_logout, name = "user_logout"),
 

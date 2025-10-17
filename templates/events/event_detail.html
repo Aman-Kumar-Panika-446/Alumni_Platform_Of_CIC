@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events | Alumni Portal</title>
+
+    <link rel="stylesheet" href="{% static 'events/css/event_detail.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    {% include "base/message.html" %}
+    {% include "base/header.html" %}
+
+    <div class="container">
+      <div class="events-list">
+        <div class="event-card">
+          <!-- Left: Image -->
+          <div class="event-left">
+            <img src="{{ event.image.url }}" alt="{{ event.title }}" />
+          </div>
+
+          <!-- Right: Details -->
+          <div class="event-right">
+            <div class="event-top">
+              <!-- Title + Status -->
+              <div class="event-title">
+                <h2>{{ event.title }}</h2>
+                {% if event.event_status == "Held" %}
+                <span class="status held">{{event.event_status}}</span>
+                {% elif event.event_status == "Upcoming" %}
+                <span class="status upcoming">{{event.event_status}}</span>
+                {%else%}
+                <span class="status ongoing">{{event.event_status}}</span>
+                {%endif%}              </div>
+
+              <!-- Dates & Venue -->
+              <div class="event-meta">
+                <p>
+                  <i class="fas fa-calendar-alt"></i>
+                  {{ event.start_date|date:"F j, Y" }}
+                  {% if event.end_date %}
+                    – {{ event.end_date|date:"F j, Y" }}
+                  {% endif %}
+                </p>
+
+                <p class="event-venue">
+                  <i class="fas fa-map-marker-alt"></i> {{ event.venue }}
+                </p>
+
+                <p class="event-description"> <i class="fas fa-info-circle"></i> {{ event.description}}</p>
+              </div>
+
+
+              <!-- Action Buttons -->
+              <div class="event-buttons">
+                <a href="{{ previous_url }}" class="view-btn">Back to events</a>
+
+                {% if event.user == request.user %}
+                <a href="" class="edit-btn">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <form action="" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this event?')">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </form>
+                {%else%}
+                <button class="report-btn">Report</button>
+                {% endif %}
+              </div>
+          </div>
+
+            <!-- Shared By -->
+            <div class="shared-by">
+              <p>
+                Shared by:
+                <strong>{{ event.user.first_name|title }} {{ event.user.last_name|title }}</strong>
+                <span class="role">({{ event.user.role|title }})</span>
+              </p>
+              <p class="posted-date">
+                Posted on: {{ event.posted_on|date:"F j, Y" }}
+              </p>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -18,7 +18,7 @@
 
   <!-- Right Menu -->
   <nav class="menu">
-    <a href="{% url 'home_page' %}" class="active">
+    <a href="{% url 'index' %}" class="active">
       <i class="fas fa-home"></i>
       <span>About Us</span>
     </a>
@@ -28,7 +28,7 @@
       <span>People</span>
     </a>
 
-    <a href="#">
+    <a href="{% url 'events:list_events' %}">
       <i class="fas fa-calendar-alt"></i>
       <span>Events</span>
     </a>
@@ -38,6 +38,7 @@
       <span>Jobs</span>
     </a>
 
+    {% if not request.user.is_anonymous%}
     <a href="#">
       <i class="fas fa-envelope"></i>
       <span>Messages</span>
@@ -61,6 +62,14 @@
         <a href="{% url 'dashboard:user_logout' %}">🚪 Logout</a>
       </div>
     </div>
+
+    {% else%}
+        <a href="{% url 'login_view' %}">
+      <i class="fas fa-sign-in-alt"></i>
+      <span>Login</span>
+    </a>
+
+    {% endif %}
   </nav>
 </header>
 

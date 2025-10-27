@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>People Directory</title>
+  <link
+  rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <link rel="stylesheet" href="{% static 'people/css/list_people.css' %}">
+</head>
+<body>
+
+<!-- ======= HEADER ======= -->
+{% include "base/header.html" %}
+
+<div class="people-container">
+
+  <!-- ======= Filter Section ======= -->
+  <div class="filter-section">
+    <form method="get">
+        <!-- 🔍 Search Bar -->
+      <div class="filter-row search-row">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input 
+          type="text" 
+          name="search" 
+          placeholder="Search by name, course, or location..."
+          value="{{ request.GET.search|default:'' }}">
+      </div>
+      <i class="fa-solid fa-user-graduate"></i>
+      <select name="role">
+        <option value="">All Roles</option>
+        <option value="Student" {% if request.GET.role == "Student" %}selected{% endif %}>Student</option>
+        <option value="Alumni" {% if request.GET.role == "Alumni" %}selected{% endif %}>Alumni</option>
+      </select>
+      
+      <i class="fa-solid fa-book-open"></i>
+      <select name="course">
+        <option value="">All Courses</option>
+        <option value="BTECH" {% if request.GET.course == "BTECH" %}selected{% endif %}>BTECH</option>
+        <option value="BA" {% if request.GET.course == "BA" %}selected{% endif %}>BA</option>
+      </select>
+
+      <i class="fa-solid fa-location-dot"></i>
+      <select name="location">
+        <option value="">All Locations</option>
+        {% for loc in locations %}
+          <option value="{{ loc }}" {% if request.GET.location == loc %}selected{% endif %}>{{ loc }}</option>
+        {% endfor %}
+      </select>
+
+      <i class="fa-solid fa-briefcase"></i>
+      <select name="status">
+        <option value="">All Status</option>
+        <option value="Job" {% if request.GET.status == "Job" %}selected{% endif %}>Job</option>
+        <option value="Higher Studies" {% if request.GET.status == "Higher Studies" %}selected{% endif %}>Higher Studies</option>
+        <option value="Startup" {% if request.GET.status == "Startup" %}selected{% endif %}>Startup</option>
+        <option value="Other" {% if request.GET.status == "Other" %}selected{% endif %}>Other</option>
+      </select>
+
+      <i class="fa-solid fa-id-badge"></i>
+      <select name="designation">
+        <option value="">All Designations</option>
+        {% for des in designations %}
+          <option value="{{ des }}" {% if request.GET.designation == des %}selected{% endif %}>{{ des }}</option>
+        {% endfor %}
+      </select>
+
+      <i class="fa-solid fa-calendar-days"></i>
+      <select name="batch">
+        <option value="">All Batches</option>
+        {% for year in batches %}
+          <option value="{{ year }}" {% if request.GET.batch == year|stringformat:"s" %}selected{% endif %}>{{ year }}</option>
+        {% endfor %}
+      </select>
+
+       <!-- 🎛 Buttons -->
+    <div class="filter-row action-row">
+      <button type="submit" class="filter-btn apply-btn">
+        <i class="fa-solid fa-filter"></i> Apply Filters
+      </button>
+      <a href="{% url 'people:list_people' %}" class="filter-btn reset-btn">
+        <i class="fa-solid fa-rotate-right"></i> Reset Filters
+      </a>
+    </div>
+    </form>
+  </div>
+
+  <!-- ======= Profiles Grid ======= -->
+  <div class="profiles-grid">
+    {% for user in users %}
+      <div class="profile-card" onclick = "window.location.href='{% url 'people:profile_details' user.pk %}'">
+        <div class="profile-img">
+          <img src="{{ user.profile_pic.url }}" alt="Profile">
+        </div>
+        <div class="profile-info">
+          <div class="name-wrapper">
+            <h3>{{ user.first_name|title }} {{ user.last_name|title }} '{{ user.ending_year|stringformat:"s"|slice:"2:"}}</h3>
+            {% if user.first_name %}
+            <i class="fa-solid fa-circle-check verified"></i>
+            {% endif %}
+          </div>
+          
+          <p class="location">
+          <i class="fa-solid fa-location-dot"></i>
+            {% if user.role == "Alumni" %}
+              {{ user.AlumniDetails.location }}
+            {% elif user.role == "Student" %}
+              {{ user.StudentDetails.home_town }}
+            {% endif %}
+          </p>
+
+          <p class="status">
+          {% if user.AlumniDetails.current_status == "Job" %}
+          <p><i class="fa-solid fa-briefcase"></i> {{ user.AlumniDetails.WorkingProfessional.designation}} @{{user.AlumniDetails.WorkingProfessional.organization_name}}</p>
+          
+          {% elif user.AlumniDetails.current_status == "Higher Studies" %}
+          <p>Pursuing {{ user.AlumniDetails.HigherStudies.domain}} From {{user.AlumniDetails.HigherStudies.organization_name}}</p>
+        
+          {% elif user.AlumniDetails.current_status == "Startup" %}
+          <p>CEO @{{ user.AlumniDetails.Startup.startup_name}}</p>
+        
+          {% elif user.AlumniDetails.current_status == "Other" %}
+          <p>{{ user.AlumniDetails.Others.description}}</p>
+        
+          {% else %}
+          {{ user.StudentDetails.bio|truncatewords:10 }}
+          {% endif %}
+          </p>
+
+        </div>
+      </div>
+    {% empty %}
+      <p>No users found.</p>
+    {% endfor %}
+  </div>
+
+  <!-- ======= Pagination ======= -->
+  {% if users.has_other_pages %}
+<div class="pagination">
+
+    {% if users.has_previous %}
+    <a href="?page={{ users.previous_page_number }}{% if query_string %}&{{ query_string }}{% endif %}">
+        <i class="fa-solid fa-chevron-left"></i> Previous
+    </a>
+    {% endif %}
+
+    {% for num in users.paginator.page_range %}
+        {% if users.number == num %}
+            <span class="current">{{ num }}</span>
+        {% else %}
+            <a href="?page={{ num }}{% if query_string %}&{{ query_string }}{% endif %}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if users.has_next %}
+    <a href="?page={{ users.next_page_number }}{% if query_string %}&{{ query_string }}{% endif %}">
+        Next <i class="fa-solid fa-chevron-right"></i>
+    </a>
+    {% endif %}
+
+</div>
+{% endif %}
+
+
+</div>
+
+</body>
+</html>

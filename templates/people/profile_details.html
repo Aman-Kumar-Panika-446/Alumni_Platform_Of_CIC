@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ user.first_name|title }} {{ user.last_name|title }} - Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="{% static 'people/css/profile_detail.css' %}">
+</head>
+<body>
+
+<!-- ======= HEADER ======= -->
+{% include "base/header.html" %}
+
+<div class="profile-container">
+
+  <!-- ====== Header Section ====== -->
+  <div class="profile-header glass">
+    <div class="header-left">
+      <div class="profile-pic">
+        <img src="{{ user.profile_pic.url }}" alt="Profile Picture">
+      </div>
+      <div class="user-basic">
+        <h2>{{ user.first_name|title }} {{ user.last_name|title }} '{{ user.ending_year|stringformat:"s"|slice:"2:"}}</h2>
+        <p><i class="fa-solid fa-graduation-cap"></i> {{ user.course_name }}</p>
+        <p><i class="fa-solid fa-user"></i> {{ user.role }}</p>
+        <p class="location"><i class="fa-solid fa-location-dot"></i> 
+          {% if user.role == "Alumni" %}
+            {{ user.AlumniDetails.location }}
+          {% else %}
+            {{ user.StudentDetails.home_town }}
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <a href="#" class="contact-btn"><i class="fa-solid fa-envelope"></i> Message</a>
+      <a href="#" class="connect-btn"><i class="fa-solid fa-check-circle"></i> Get Verified</a>
+    </div>
+  </div>
+
+  <!-- ====== Bio Section ====== -->
+  <div class="profile-section glass">
+    <h3><i class="fa-solid fa-user"></i> Bio</h3>
+    {% if user.role == "Alumni" %}
+      <p class="designation">
+        {% if user.AlumniDetails.current_status == "Job" %}
+          {{ user.AlumniDetails.WorkingProfessional.designation }} @ {{ user.AlumniDetails.WorkingProfessional.organization_name }}
+        {% elif user.AlumniDetails.current_status == "Higher Studies" %}
+          Pursuing {{ user.AlumniDetails.HigherStudies.domain }} from {{ user.AlumniDetails.HigherStudies.organization_name }}
+        {% elif user.AlumniDetails.current_status == "Startup" %}
+          CEO @ {{ user.AlumniDetails.Startup.startup_name }}
+        {% else %}
+          {{ user.AlumniDetails.Others.description }}
+        {% endif %}
+      </p>
+    {% else %}
+      <p>{{ user.StudentDetails.bio|default:"No bio available." }}</p>
+    {% endif %}
+  </div>
+
+  <!-- ====== Experience Section ====== -->
+  <div class="profile-section glass">
+    <h3><i class="fa-solid fa-briefcase"></i> Experience</h3>
+    <div class="experience-list">
+      {% if user.Experience.all %}
+        {% for exp in user.Experience.all %}
+          <div class="experience-card">
+            <h3>{{ exp.designation|title }}</h3>
+            <p class="org">{{ exp.organization_name|title }} · {{ exp.employment_type }}</p>
+            <p class="duration">
+              {{ exp.start_date|date:"M Y" }} – 
+              {% if exp.end_date %}{{ exp.end_date|date:"M Y" }}{% else %}Present{% endif %}
+            </p>
+            <p class="location">{{ exp.location|title }} · {{ exp.location_type }}</p>
+            {% if exp.description %}
+              <p class="description">{{ exp.description }}</p>
+            {% endif %}
+            {% if exp.media %}
+              <p><a href="{{ exp.media.url }}" target="_blank">View Certificate</a></p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-exp">No experience added yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ====== Skills Section ====== -->
+  <div class="profile-section glass">
+    <h3><i class="fa-solid fa-lightbulb"></i> Skills</h3>
+    <div class="skills-list">
+      {% if user.Skill.all %}
+        {% for skill in user.Skill.all %}
+          <div class="skill-card">
+            <h3>{{ skill.skill_name }}</h3>
+            <p class="proficiency">Proficiency: {{ skill.proficiency }}</p>
+            {% if skill.media %}
+              <p><a href="{{ skill.media.url }}" target="_blank">View Certificate</a></p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="no-skills">No skills added yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+    <!-- ====== Back Button ====== -->
+  <div class="back-btn-container">
+    <a href="{% url 'people:list_people' %}" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i> Back to People
+    </a>
+  </div>
+
+
+</div>
+
+</body>
+</html>

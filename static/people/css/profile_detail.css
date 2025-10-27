@@ -1,0 +1,200 @@
+/* ====== General Styling ====== */
+body {
+  background: linear-gradient(135deg, #e9f1ff 0%, #f8fbff 100%);
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 30px;
+}
+
+.profile-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-top: 70px;
+}
+
+/* ====== Glassmorphism Card ====== */
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* ====== Header ====== */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-pic {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(73, 115, 255, 0.4);
+  box-shadow: 0 3px 10px rgba(73, 115, 255, 0.15);
+}
+
+.profile-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-basic h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.user-basic p {
+  margin: 6px 0;
+  font-size: 15px;
+  color: #555;
+}
+
+.user-basic i {
+  color: #4973ff;
+  margin-right: 5px;
+}
+
+.header-right {
+  display: flex;
+  gap: 12px;
+}
+
+.contact-btn,
+.connect-btn {
+  background: rgba(73, 115, 255, 0.9);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contact-btn:hover,
+.connect-btn:hover {
+  background: #3558e0;
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+/* ====== Sections ====== */
+.profile-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-section p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.info-block p {
+  margin: 4px 0;
+}
+
+/* ====== Skills ====== */
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.skill-tag {
+  background: rgba(73, 115, 255, 0.15);
+  border: 1px solid rgba(73, 115, 255, 0.2);
+  color: #3558e0;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.skill-tag:hover {
+  background: #4973ff;
+  color: #fff;
+}
+
+/* ====== Links ====== */
+a {
+  color: #4973ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn-container {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #000000;
+  backdrop-filter: blur(12px);
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.back-btn:hover {
+  background: rgb(0, 0, 0);
+  color: #ffffff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    margin-top: 15px;
+  }
+}
+

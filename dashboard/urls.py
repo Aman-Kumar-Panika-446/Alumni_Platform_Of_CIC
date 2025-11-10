@@ -26,6 +26,10 @@ urlpatterns = [
     # DEALING WITH EVENT
     path('view_events/', views.view_events, name = "view_events"),
 
+    # DEALING WITH OPPORTUNITY
+    path('view_opportunity/', views.view_opportunity, name = "view_opportunity"),
+    path('view_response/<int:opp_id>', views.view_response, name = "view_response"),
+
     # LOGOUT
     path('logout/', views.user_logout, name = "user_logout"),
 

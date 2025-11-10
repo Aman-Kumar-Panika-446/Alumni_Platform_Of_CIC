@@ -3,7 +3,9 @@ from django.core.paginator import Paginator
 from authentication.models import *
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from people.forms import *
 # Create your views here.
 
 def list_people(request):
@@ -90,6 +92,19 @@ def profile_details(request, user_id):
     user = get_object_or_404(CustomUser, pk = user_id)
     return render(request, "people/profile_details.html", {"user":user})
 
+@login_required
+def get_verified(request, pk):
+    if request.method == "POST":
+        form = StatusDocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            docs = form.save(commit = False)
+            docs.alumni = request.user
+            docs.save()
+            messages.success(request, "Document uploaded successfully!")
+            return redirect('people:profile_details', request.user.pk)
+        else:
+            messages.error(request, "Please select a valid document.")
+    else:
+        form = StatusDocumentForm()
 
-def upload_proofs(request):
-    pass
+    return render(request, 'people/verification.html', {'form': form})

@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events | Alumni Portal</title>
+
+    <link rel="stylesheet" href="{% static 'events/css/list_events.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    {% include "base/message.html" %}
+    {% include "base/header.html" %}
+
+    <div class="container">
+
+
+    <div class="event-filter-container">
+        <!-- 🔍 Search -->
+        <form method="get" action="" class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" name="search" placeholder="Search by title or venue..."
+                value="{{ search_query }}">
+        </form>
+
+        <!-- ⚙️ Filters -->
+        <div class="filter-toggle">
+          <a href="?filter=all{% if search_query %}&search={{ search_query }}{% endif %}"
+            class="filter-btn {% if filter_type == 'all' %}active{% endif %}">All Opportunities</a>
+          <a href="?filter=posted_by_student{% if search_query %}&search={{ search_query }}{% endif %}"
+            class="filter-btn {% if filter_type == 'posted_by_student' %}active{% endif %}">Posted by Student</a>
+          <a href="?filter=posted_by_alumni{% if search_query %}&search={{ search_query }}{% endif %}"
+            class="filter-btn {% if filter_type == 'posted_by_alumni' %}active{% endif %}">Posted by Alumni</a>
+          <a href="?filter=posted_by_staff{% if search_query %}&search={{ search_query }}{% endif %}"
+            class="filter-btn {% if filter_type == 'posted_by_staff' %}active{% endif %}">Posted by Staff</a>
+        </div>
+
+    </div>  
+
+    {% if not request.user.is_anonymous%}
+    <div class = "post-btn">
+        <a class="add-btn" href="{% url 'opportunity:post_opportunity' %}">+ Post New Opportunity</a>
+    </div>
+    {% endif %}
+    
+      {% if opps %}
+      <div class="events-list">
+        {% for opp in opps %}
+        <div class="event-card">
+          <!-- Left: Image -->
+          <div class="event-left">
+            <img src="{{ opp.image.url }}" alt="{{ opp.opportunity_type }}" />
+          </div>
+
+          <!-- Right: Details -->
+          <div class="event-right">
+            <div class="event-top">
+              <!-- Title + Status -->
+              <div class="event-title">
+                <h2>{{ opp.role}}</h2>
+              </div>
+
+              <div class="event-meta">
+                <p>
+                  <i class="fas fa-briefcase"></i>
+                  {{ opp.opportunity_type}} @{{ opp.organization_name}}
+                </p>
+
+                <p>
+                  <i class="fas fa-clock"></i>
+                  <strong> Duration: </strong>
+                  {{ opp.duration }}
+                </p>
+
+                <p>
+                  <i class="fas fa-calendar-alt"></i>
+                  <strong> Apply By: </strong>
+                  {{ opp.last_date|date:"F j, Y" }}
+                </p>
+
+                <p class="event-description"> <i class="fas fa-info-circle"></i> {{ opp.description|truncatechars:90 }}</p>
+              </div>
+
+
+              <!-- Action Buttons -->
+              <div class="event-buttons">
+                <a href="{% url 'opportunity:opportunity_details' opp.pk %}" class="view-btn">View Details</a>
+
+                {% if opp.user == request.user %}
+                <a href="{% url 'opportunity:edit_opportunity' opp.pk %}" class="edit-btn">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <form action="{% url 'opportunity:delete_opportunity' opp.pk %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ request.META.HTTP_REFERER }}">
+                  <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this opportunity?')">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </form>
+    
+                {%elif not request.user.is_anonymous%}
+                <a href = "{% url 'opportunity:report_opportunity' opp.pk %}" class="report-btn">Report</a>
+                {% endif %}
+
+              </div>
+          </div>
+
+            <!-- Shared By -->
+            <div class="shared-by">
+              <p>
+                Shared by:
+                <strong>{{ opp.user.first_name|title }} {{ opp.user.last_name|title }}</strong>
+                <span class="role">({{ opp.user.role|title }})</span>
+              </p>
+              <p class="posted-date">
+                Posted on: {{ opp.posted_on|date:"F j, Y" }}
+              </p>
+            </div>
+          
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
+
+      {% else %}
+      <p class="no-events">No opportunity found</p>
+      {% endif %}
+    </div>
+</body>
+</html>

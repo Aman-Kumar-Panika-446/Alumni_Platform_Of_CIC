@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Status Documents</title>
+  <link rel="stylesheet" href="{% static 'people/css/verification.css' %}">
+</head>
+<body>
+
+  {% include "base/message.html" %}
+
+  <div class="upload-container">
+    <div class="upload-card">
+      <h2>Document Submissions</h2>
+      <p class="instruction">
+        Kindly compile all the relevant docs related to your current status so that we can verify your current status.
+      </p>
+
+      <form method="post" enctype="multipart/form-data" class="upload-form">
+        {% csrf_token %}
+        <div class="file-field">
+          {{ form.document }}
+        </div>
+        <button type="submit" class="submit-btn">Upload</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+</body>
+</html>

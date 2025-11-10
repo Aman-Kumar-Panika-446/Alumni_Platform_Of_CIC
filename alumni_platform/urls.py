@@ -25,8 +25,9 @@ urlpatterns = [
     path('',include('authentication.urls')),
     path("dashboard/", include(("dashboard.urls", "dashboard"), namespace="dashboard")),
     path("events/", include(("events.urls", "events"), namespace="events")),
-    path("people/", include(("people.urls", "people"), namespace="people"))
-
+    path("people/", include(("people.urls", "people"), namespace="people")),
+    path("opportunity/", include(("opportunity.urls", "opportunity"), namespace="opportunity")),
+    path("", include("chat.urls"))
 ]
 
 if settings.DEBUG:

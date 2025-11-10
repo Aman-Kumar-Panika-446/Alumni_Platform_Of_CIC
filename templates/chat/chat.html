@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ room_name }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'chat/css/chat.css' %}">
+</head>
+<body>
+{% include "base/header.html" %}
+<div class="chat-container">
+  <div class="sidebar">
+    <h5>Chats</h5>
+    <div class="contacts">
+      {% for item in user_last_messages %}
+        <a href="{% url 'chat' item.user.username %}" class="contact {% if item.user.username == room_name %}active{% endif %}">
+          <img src="{{ item.user.profile_pic.url }}" alt="">
+          <div class="contact-info">
+            <strong>{{ item.user.username }}</strong>
+            <small>
+              {% if item.last_message.sender == request.user %}You: {% endif %}
+              {{ item.last_message.content|truncatewords:5 }}
+            </small>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="chat-area">
+    <div class="chat-header">
+      <h3>{{ room_name }}</h3>
+{% if receiver.is_online %}
+  <span class="online-dot"></span> Online
+{% else %}
+  <span class="offline-dot"></span> Last seen {{ receiver.last_seen|timesince }} ago
+{% endif %}
+
+    </div>
+
+    <div id="chatbox" class="chatbox">
+      {% for message in chats %}
+      <div class="chat-message {% if message.sender == request.user %}sender{% else %}receiver{% endif %}">
+        <p>
+          {{ message.content }}
+          {% if message.sender == request.user %}
+            <span class="tick {% if message.is_seen %}blue{% else %}grey{% endif %}">
+              {% if message.is_seen %}✓✓{% else %}✓{% endif %}
+            </span>
+          {% endif %}
+        </p>
+        <span class="timestamp">{{ message.timestamp|time:"g:i A" }}</span>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="chat-input">
+      <input id="my_input" type="text" placeholder="Type a message...">
+      <button id="submit_button"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+</div>
+
+{{ slug|json_script:"room_slug" }}
+
+<script>
+  const chatbox = document.querySelector("#chatbox");
+  const input = document.querySelector("#my_input");
+  const sendBtn = document.querySelector("#submit_button");
+  const roomName = JSON.parse(document.getElementById("room_slug").textContent);
+  const currentUser = "{{ request.user.username }}";
+
+  const protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+  const chatSocket = new WebSocket(protocol + window.location.host + "/ws/chat/" + roomName + "/");
+
+  function scrollToBottom(){ chatbox.scrollTop = chatbox.scrollHeight; }
+  scrollToBottom();
+
+  chatSocket.onopen = () => {
+    console.log("Connected");
+    // tell server we opened this chat (so unread -> seen)
+    chatSocket.send(JSON.stringify({ type: "seen" }));
+  };
+
+  sendBtn.onclick = () => {
+    const msg = input.value.trim();
+    if (!msg) return;
+    chatSocket.send(JSON.stringify({ message: msg }));
+    input.value = "";
+  };
+
+  input.addEventListener("keyup", e => { if (e.key === "Enter") sendBtn.click(); });
+
+  // mark seen when window/tab gets focus (helpful)
+  window.addEventListener("focus", () => {
+    if (chatSocket.readyState === WebSocket.OPEN) chatSocket.send(JSON.stringify({ type: "seen" }));
+  });
+
+  chatSocket.onmessage = e => {
+    const data = JSON.parse(e.data);
+
+    if (data.type === "chat_message") {
+      const isSender = data.sender === currentUser;
+      const div = document.createElement("div");
+      div.className = "chat-message " + (isSender ? "sender" : "receiver");
+
+      // choose tick based on server flags (we use is_delivered/is_seen flags from event if provided)
+      let tickHTML = "";
+      if (isSender) {
+        if (data.is_seen) tickHTML = `<span class="tick blue">✓✓</span>`;
+        else if (data.is_delivered) tickHTML = `<span class="tick grey">✓✓</span>`;
+        else tickHTML = `<span class="tick grey">✓</span>`;
+      }
+
+      div.innerHTML = `<p>${data.message} ${tickHTML}</p><span class="timestamp">${data.timestamp}</span>`;
+      chatbox.appendChild(div);
+      scrollToBottom();
+
+      // if current user is receiver, immediately mark as seen
+      if (!isSender) {
+        // small delay to allow UI to render; still send seen right away
+        chatSocket.send(JSON.stringify({ type: "seen" }));
+      }
+    }
+
+    if (data.type === "message_seen") {
+      // update all sender ticks to blue
+      document.querySelectorAll(".sender .tick").forEach(t => {
+        t.classList.remove("grey");
+        t.classList.add("blue");
+        t.textContent = "✓✓";
+      });
+    }
+
+    if (data.type === "user_status") {
+      const userStatusEl = document.getElementById("user-status");
+      const lastSeenEl = document.getElementById("last-seen-text");
+      if (data.status === "online") {
+        userStatusEl.classList.add("online-dot");
+        userStatusEl.classList.remove("offline-dot");
+        lastSeenEl.textContent = "online";
+      } else {
+        userStatusEl.classList.remove("online-dot");
+        userStatusEl.classList.add("offline-dot");
+        lastSeenEl.textContent = "last seen " + (data.last_seen || "");
+      }
+    }
+  };
+</script>
+
+<style>
+.tick.grey { color: gray; }
+.tick.blue { color: #2196F3; }
+.online-dot { height: 10px; width: 10px; background: #00e676; border-radius: 50%; display: inline-block; margin-left: 5px; }
+.offline-dot { height: 10px; width: 10px; background: gray; border-radius: 50%; display: inline-block; margin-left: 5px; }
+</style>
+</body>
+</html>

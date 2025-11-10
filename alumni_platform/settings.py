@@ -32,17 +32,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'home.apps.HomeConfig',
     'authentication.apps.AuthenticationConfig',
     'dashboard.apps.DashboardConfig',
     'events.apps.EventsConfig',
     'people.apps.PeopleConfig',
+    'chat',
+    'opportunity.apps.OpportunityConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -74,6 +78,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'alumni_platform.wsgi.application'
 
+# Manually Added
+ASGI_APPLICATION = 'alumni_platform.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -143,3 +155,7 @@ import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# TO CORRECT THE TIMESTAMP IN CHAT
+TIME_ZONE = 'Asia/Kolkata'
+USE_TZ = True

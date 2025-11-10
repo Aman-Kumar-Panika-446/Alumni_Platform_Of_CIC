@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.utils import timezone
 # Create your models here.
 
 # Built in AbstractUser
@@ -31,8 +31,8 @@ class CustomUser(AbstractUser):
     ]
 
     role = models.CharField(max_length=15, null=True, choices=role_choices) # STUDENT OR ALUMNI OR STAFF
-    roll_no = models.CharField(unique=True, null= True) 
-    enrolment_no = models.CharField(unique=True, null= True)
+    roll_no = models.CharField(max_length=11, unique=True, null= True, blank=True) 
+    enrolment_no = models.CharField(max_length=16, unique=True, null= True, blank=True)
     starting_year = models.IntegerField(null = True)
     ending_year = models.IntegerField(null = True)
     course_name = models.CharField(max_length=50, null= True, choices=course_choices) 
@@ -43,6 +43,20 @@ class CustomUser(AbstractUser):
         null=True
     )
 
+    # MESSAGING RELATED ATTRIBUTE
+    is_online = models.BooleanField(default=False)
+    last_seen = models.DateTimeField(null=True, blank=True)
+    connections = models.IntegerField(default=0)   # <- NEW
+
+    def mark_online(self):
+        self.is_online = True
+        self.save(update_fields=['is_online'])
+
+    def mark_offline(self):
+        self.is_online = False
+        self.last_seen = timezone.now()
+        self.save(update_fields=['is_online', 'last_seen'])
+    
     def __str__(self):
         return self.first_name + " " + self.last_name
 
@@ -67,12 +81,20 @@ class AlumniDetails(models.Model):
     ]
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="AlumniDetails")
-    current_status = models.CharField(max_length=20, choices=status_choices) # WORKING PROF OR HIGHER STUDIES OR "OTHER" 
+    current_status = models.CharField(max_length=20, choices=status_choices) # WORKING PROF/HIGHER STUDIES/STARTUP/OTHER
+    is_verified = models.BooleanField(default=False)
     location = models.CharField(max_length=100)
 
     def __str__(self):
         return self.user.first_name +" - "+ self.current_status
 
+class StatusDocuments(models.Model):
+    alumni = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="StatusDocuments")
+    document = models.FileField(upload_to="status_docs")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.alumni.first_name} {self.alumni.last_name}"
 
 # FOR WORKING PROFESSIONALS
 class WorkingProfessional(models.Model):

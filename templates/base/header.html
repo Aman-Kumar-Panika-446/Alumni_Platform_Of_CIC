@@ -33,13 +33,13 @@
       <span>Events</span>
     </a>
 
-    <a href="#">
+    <a href=" {% url 'opportunity:list_opportunities' %} ">
       <i class="fas fa-briefcase"></i>
-      <span>Jobs</span>
+      <span>Opportunity</span>
     </a>
 
     {% if not request.user.is_anonymous%}
-    <a href="#">
+    <a href="{% url 'chat_view' %}">
       <i class="fas fa-envelope"></i>
       <span>Messages</span>
       <span class="badge">1</span>
@@ -64,7 +64,7 @@
     </div>
 
     {% else%}
-        <a href="{% url 'login_view' %}">
+    <a href="{% url 'login_view' %}">
       <i class="fas fa-sign-in-alt"></i>
       <span>Login</span>
     </a>

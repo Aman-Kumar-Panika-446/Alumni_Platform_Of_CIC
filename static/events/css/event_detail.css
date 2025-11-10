@@ -99,7 +99,7 @@ body {
   margin-top: 10px;
 }
 
-.view-btn, .report-btn {
+.view-btn, .report-btn, .apply-btn {
   padding: 8px 14px;
   border: none;
   border-radius: 8px;
@@ -119,12 +119,20 @@ body {
 }
 
 .report-btn {
-  background: #ef4444;
+  background: #ffc107;
   color: #fff;
 }
 
 .report-btn:hover {
   background: #dc2626;
+}
+
+.apply-btn{
+  background-color: rgb(21, 149, 59);
+}
+
+.apply-btn:hover{
+  background-color: rgb(8, 89, 14);
 }
 
 /* Shared By Section */

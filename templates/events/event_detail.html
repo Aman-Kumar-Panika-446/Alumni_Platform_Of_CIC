@@ -59,19 +59,19 @@
 
               <!-- Action Buttons -->
               <div class="event-buttons">
-                <a href="{{ previous_url }}" class="view-btn">Back to events</a>
+                <a href="{% url 'events:list_events' %}" class="view-btn">Back to events</a>
 
                 {% if event.user == request.user %}
-                <a href="" class="edit-btn">
+                <a href="{% url 'events:edit_event' event.pk %}" class="edit-btn">
                   <i class="fas fa-edit"></i> Edit
                 </a>
-                <form action="" method="post" style="display:inline;">
+                <form action="{% url 'events:delete_event' event.pk %}" method="post" style="display:inline;">
                   {% csrf_token %}
                   <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this event?')">
                     <i class="fas fa-trash"></i> Delete
                   </button>
                 </form>
-                {%else%}
+                {%elif not request.user.is_anonymous%}
                 <button class="report-btn">Report</button>
                 {% endif %}
               </div>

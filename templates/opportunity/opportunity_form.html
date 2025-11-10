@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create / Edit Event</title>
+  <link rel="stylesheet" href="{% static 'events/css/event_form.css' %}">
+</head>
+<body>
+
+{% include "base/message.html" %}
+
+<div class="form-container">
+  <form method="post" enctype="multipart/form-data" class="event-form">
+    {% csrf_token %}
+    <h2>{{ title }}</h2>
+
+    <div class="form-group">
+      <label>Opportunity Type*</label>
+      {{ form.opportunity_type }}
+      <div class="error">{{ form.opportunity_type.errors }}</div>
+    </div>
+
+    <div class="form-group">
+      <label>Organization Name*</label>
+      {{ form.organization_name }}
+      <div class="error">{{ form.organization_name.errors }}</div>
+    </div>
+
+    <div class="form-group">
+      <label>Role*</label>
+      {{ form.role }}
+      <div class="error">{{ form.role.errors }}</div>
+    </div>
+
+    <div class="form-group">
+      <label>Duration*</label>
+      {{ form.duration }}
+      <div class="error">{{ form.duration.errors }}</div>
+    </div>
+
+ 
+    <div class="form-group">
+      <label>Description*</label>
+      {{ form.description }}
+      <div class="error">{{ form.venue.errors }}</div>
+    </div>
+
+
+    <div class="form-group">
+      <label>Last Date*</label>
+      {{ form.last_date }}
+      <div class="error">{{ form.last_date.errors }}</div>
+    </div>
+
+    <!-- Image -->
+    <div class="form-group">
+      <label>Opportunity Image</label>
+      {{ form.image }}
+      <div class="error">{{ form.image.errors }}</div>
+
+      <div class="image-preview">
+        <img id="preview-img" src="{{ opp.image.url }}" alt="Preview">
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-group">
+      <a href="{{ previous_url }}" class="cancel-btn">Cancel</a>
+      <button type="submit" class="btn-submit">Save</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

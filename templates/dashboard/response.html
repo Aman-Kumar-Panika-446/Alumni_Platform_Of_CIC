@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Applicants List</title>
+  <link rel="stylesheet" href="{% static 'dashboard/css/response.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h2>Applicants</h2>
+
+    {% for applicant in applicants %}
+    <div class="applicant-card">
+      <div class="details">
+        <h3>{{ applicant.user.first_name|title }} {{ applicant.user.last_name|title }}</h3>
+        <p>{{ applicant.user.role }} 
+          {% if applicant.user.role == "Student" %}
+            - {{ applicant.user.StudentDetails.current_year }} year
+          {% elif applicant.user.role  == "Alumni" %}
+            '{{ applicant.opportunity.user.ending_year|stringformat:"s"|slice:"2:" }}
+          {% endif %}
+        </p>
+        <p>
+        {{applicant.remark}}
+        </p>
+      </div>
+      <a href="{{ applicant.cv.url }}" class="view-btn" target="_blank">View CV</a>
+    </div>
+    {% empty %}
+      <p>No applicants found.</p>
+    {% endfor %}
+  </div>
+</body>
+</html>

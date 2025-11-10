@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events | Alumni Portal</title>
+
+    <link rel="stylesheet" href="{% static 'events/css/event_detail.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    {% include "base/message.html" %}
+    {% include "base/header.html" %}
+
+    <div class="container">
+    
+      <div class="events-list">
+        <div class="event-card">
+          <!-- Left: Image -->
+          <div class="event-left">
+            <img src="{{ opp.image.url }}" alt="{{ opp.opportunity_type }}" />
+          </div>
+
+          <!-- Right: Details -->
+          <div class="event-right">
+            <div class="event-top">
+              <!-- Title + Status -->
+              <div class="event-title">
+                <h2>{{ opp.role}}</h2>
+              </div>
+
+              <div class="event-meta">
+                <p>
+                  <i class="fas fa-briefcase"></i>
+                  {{ opp.opportunity_type}} @{{ opp.organization_name}}
+                </p>
+
+                <p>
+                  <i class="fas fa-clock"></i>
+                  <strong> Duration: </strong>
+                  {{ opp.duration }}
+                </p>
+
+                <p>
+                  <i class="fas fa-calendar-alt"></i>
+                  <strong> Apply By: </strong>
+                  {{ opp.last_date|date:"F j, Y" }}
+                </p>
+
+                <p class="event-description"> <i class="fas fa-info-circle"></i> {{ opp.description}}</p>
+              </div>
+
+
+              <!-- Action Buttons -->
+              <div class="event-buttons">
+                <a href="{% url 'opportunity:list_opportunities' %}" class="view-btn">Back to events</a>
+
+                {% if opp.user == request.user %}
+                <a href="{% url 'opportunity:edit_opportunity' opp.pk %}" class="edit-btn">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+
+                <form action="{%  url 'opportunity:delete_opportunity' opp.pk %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this opportunity?')">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </form>
+
+                {%elif not request.user.is_anonymous%}
+                <a href="{% url 'opportunity:apply' opp.pk%}" class="apply-btn">Apply</a>
+                <button class="report-btn">Report</button>
+
+
+                {% endif %}
+              </div>
+          </div>
+
+            <!-- Shared By -->
+            <div class="shared-by">
+              <p>
+                Shared by:
+                <strong>{{ opp.user.first_name|title }} {{ opp.user.last_name|title }}</strong>
+                <span class="role">({{ opp.user.role|title }})</span>
+              </p>
+              <p class="posted-date">
+                Posted on: {{ opp.posted_on|date:"F j, Y" }}
+              </p>
+            </div>
+          
+          </div>
+        </div>
+    
+      </div>
+    </div>
+</body>
+</html>

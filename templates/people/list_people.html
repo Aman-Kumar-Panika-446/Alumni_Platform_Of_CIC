@@ -98,7 +98,7 @@
         <div class="profile-info">
           <div class="name-wrapper">
             <h3>{{ user.first_name|title }} {{ user.last_name|title }} '{{ user.ending_year|stringformat:"s"|slice:"2:"}}</h3>
-            {% if user.first_name %}
+            {% if user.AlumniDetails.is_verified %}
             <i class="fa-solid fa-circle-check verified"></i>
             {% endif %}
           </div>

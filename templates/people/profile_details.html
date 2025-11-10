@@ -13,6 +13,7 @@
 <!-- ======= HEADER ======= -->
 {% include "base/header.html" %}
 
+{% include "base/message.html" %}
 <div class="profile-container">
 
   <!-- ====== Header Section ====== -->
@@ -36,8 +37,12 @@
     </div>
 
     <div class="header-right">
-      <a href="#" class="contact-btn"><i class="fa-solid fa-envelope"></i> Message</a>
-      <a href="#" class="connect-btn"><i class="fa-solid fa-check-circle"></i> Get Verified</a>
+      {% if not request.user.is_anonymous and user != request.user%}
+      <a href="{% url 'chat' user.username %}" class="contact-btn"><i class="fa-solid fa-envelope"></i> Message</a>
+      {%endif%}
+      {% if user.role == 'Alumni' and not user.AlumniDetails.is_verified and user == request.user%}
+      <a href="{% url 'people:get_verified' user.pk %}" class="connect-btn"><i class="fa-solid fa-check-circle"></i> Get Verified</a>
+      {% endif %}
     </div>
   </div>
 

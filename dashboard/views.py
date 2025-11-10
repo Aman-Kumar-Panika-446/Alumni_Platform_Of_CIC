@@ -7,6 +7,7 @@ from authentication.models import *
 from datetime import datetime
 from .forms import ExperienceForm, SkillForm
 from events.models import Event
+from opportunity.models import *
 
 # Create your views here.
 
@@ -225,3 +226,16 @@ def delete_skill(request, pk):
 def view_events(request):
     events = Event.objects.filter(user = request.user)
     return render(request, "dashboard/events.html", {"events":events})
+
+
+# HANDLING EVENT SECTION
+@login_required
+def view_opportunity(request):
+    opps = Opportunity.objects.filter(user = request.user)
+    return render(request, "dashboard/opportunity.html", {"opps":opps})
+
+@login_required
+def view_response(request, opp_id):
+    applicants = Applicant.objects.filter(opportunity = opp_id, opportunity__user = request.user)
+
+    return render(request, "dashboard/response.html", {"applicants":applicants})

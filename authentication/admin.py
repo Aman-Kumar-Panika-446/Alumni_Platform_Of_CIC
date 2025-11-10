@@ -79,6 +79,7 @@ class AlumniDetailsAdmin(admin.ModelAdmin):
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(AlumniDetails, AlumniDetailsAdmin)
+admin.site.register(StatusDocuments)
 admin.site.register(StudentDetails)
 admin.site.register(ManualVerification)
 admin.site.register(WorkingProfessional)

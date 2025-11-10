@@ -55,6 +55,12 @@
 .event-card{
   height: 270px;
 }
+.star-card{
+  text-decoration: none;
+}
+.card{
+  height: 310px;
+}
 .card img, .event-card img {
   width: 100%;
   height: 180px;

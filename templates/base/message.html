@@ -1,7 +1,13 @@
 {% if messages %}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+  
   {% for message in messages %}
+    const messageText = "{{ message|escapejs }}";
+    const messageKey = "shown_" + btoa(messageText).slice(0, 12); // short unique key per message
+    if (!sessionStorage.getItem(messageKey)) {
+
     Swal.fire({
       icon: "{% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% else %}info{% endif %}",
       title: "{{ message }}",
@@ -15,6 +21,10 @@
         confirmButton: "{% if message.tags == 'error' %}btn-error{% elif message.tags == 'success' %}btn-success{% else %}btn-info{% endif %}"
       }
     });
+  
+    // Mark message as shown for this browser tab
+    sessionStorage.setItem(messageKey, "1");
+  }
   {% endfor %}
 </script>
 

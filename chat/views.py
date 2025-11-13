@@ -85,6 +85,6 @@ def chat_room(request, username):
         "slug": receiver.username,
         "receiver": receiver,
         "chats": chats,
-        "user_last_messages": contact_list,
+        "user_last_messages": contact_list
     }
     return render(request, "chat/chat.html", context)

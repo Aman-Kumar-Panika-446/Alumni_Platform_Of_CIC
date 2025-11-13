@@ -19,6 +19,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # increment connection count -> mark user online if first connection
         await self.increment_connections(self.user)
+        await self.channel_layer.group_add("sidebar_updates", self.channel_name)
 
         # broadcast presence update
         await self.channel_layer.group_send(
@@ -44,6 +45,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # decrement connection count -> mark offline when zero
         await self.decrement_connections(self.user)
+        await self.channel_layer.group_discard("sidebar_updates", self.channel_name)
 
         # broadcast presence update (include last_seen so UI can show it)
         last_seen = timezone.localtime(timezone.now()).strftime("%I:%M %p")
@@ -99,6 +101,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
+        # Notify sidebar update (for both sender and receiver)
+        await self.channel_layer.group_send(
+            "sidebar_updates",
+            {
+                "type": "sidebar_update",
+                "sender": sender.username,
+                "receiver": receiver.username,
+                "message": msg.content,
+                "timestamp": timezone.localtime(msg.timestamp).strftime("%I:%M %p"),
+            }
+)
+
     # Event handlers sent to clients
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({"type": "chat_message", **event}))
@@ -112,6 +126,15 @@ class ChatConsumer(AsyncWebsocketConsumer):
             "username": event.get("username"),
             "status": event.get("status"),
             "last_seen": event.get("last_seen", None)
+        }))
+
+    async def sidebar_update(self, event):
+        await self.send(text_data=json.dumps({
+            "type": "sidebar_update",
+            "sender": event["sender"],
+            "receiver": event["receiver"],
+            "message": event["message"],
+            "timestamp": event["timestamp"]
         }))
 
     # --- DB helpers (sync_to_async) ---

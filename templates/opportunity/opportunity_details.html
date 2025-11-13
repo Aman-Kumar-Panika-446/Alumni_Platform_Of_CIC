@@ -58,7 +58,7 @@
 
               <!-- Action Buttons -->
               <div class="event-buttons">
-                <a href="{% url 'opportunity:list_opportunities' %}" class="view-btn">Back to events</a>
+                <a href="{% url 'opportunity:list_opportunities' %}" class="view-btn">Back to Opportunity</a>
 
                 {% if opp.user == request.user %}
                 <a href="{% url 'opportunity:edit_opportunity' opp.pk %}" class="edit-btn">

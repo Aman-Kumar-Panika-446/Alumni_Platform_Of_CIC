@@ -20,7 +20,7 @@
   <nav class="menu">
     <a href="{% url 'index' %}" class="active">
       <i class="fas fa-home"></i>
-      <span>About Us</span>
+      <span>Home</span>
     </a>
 
     <a href="{% url 'people:list_people' %}">
@@ -42,13 +42,7 @@
     <a href="{% url 'chat_view' %}">
       <i class="fas fa-envelope"></i>
       <span>Messages</span>
-      <span class="badge">1</span>
-    </a>
-
-    <a href="#">
-      <i class="fas fa-bell"></i>
-      <span>Notifications</span>
-      <span class="badge">1</span>
+      {% comment %} <span class="badge"></span> {% endcomment %}
     </a>
 
     <!-- Profile Section -->

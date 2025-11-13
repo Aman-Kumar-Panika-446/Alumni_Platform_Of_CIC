@@ -9,7 +9,7 @@ from .models import *
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-
+from django.db.models import Q
 
 def login_view(request):
     if request.method == "POST":
@@ -17,11 +17,13 @@ def login_view(request):
         password = request.POST.get("password")
 
         try:
-            user_data = CustomUser.objects.get(email = email_id)
-            user = authenticate(username = user_data.username, password = password)
+            user_data = CustomUser.objects.get(Q(email = email_id) | Q(username = email_id))
         except CustomUser.DoesNotExist:
-            user = None
+            messages.error(request, "User not registered with this Email Id or Username.")
+            return redirect("login_view")
 
+        user = authenticate(username = user_data.username, password = password)
+        
         if user is not None:
             login(request, user)
             messages.success(request, f"Welcome back {user.first_name}")
@@ -29,7 +31,7 @@ def login_view(request):
         else:
             messages.error(request, "Invalid Email Id or Password")
             return redirect("login_view")
-        
+
     return render(request, 'authentication/login.html')
 
 
@@ -75,7 +77,8 @@ def fetch_email(request):
                 return redirect("forgot_password")
 
         elif action == "resend_otp":
-            email = request.session.get("email")
+            email = request.POST.get("email")
+            request.session["email"] = email
             otp = str(random.randint(100000, 999999))
             request.session["otp"] = otp
 
@@ -148,7 +151,9 @@ def email_verification(request):
                 messages.error(request, "Invalid OTP. Try again.")
 
         elif action == "resend_otp":
-            email = request.session.get("email")
+            email = request.POST.get("email")
+            request.session["email"] = email
+
             if not email or not email.endswith("@cic.du.ac.in"):
                 messages.error(request, "Invalid Email Id.")
                 return redirect("email_verification")
@@ -185,12 +190,15 @@ def user_details(request):
             qr_text = read_qr_from_image("temp.png")
             
             #CHECKING WHETHER WE GET DATA OR NOT
-            if qr_text is None:
+            try:
+                if qr_text is None:
+                    raise Exception
+                
+                name, roll_no, enrollment,starting_year, ending_year, role = split_qr_data(qr_text)
+            except:
                 messages.error(request, "Sorry, Unable to find details")
                 return redirect("upload_document")
-            
-            name, roll_no, enrollment,starting_year, ending_year, role = split_qr_data(qr_text)
-            
+ 
             # Checking whether the user is CICian or Not
             required_formats = ["CINCBTIM", "CINCBHSS"]
             format = re.sub('[^A-Z]','',enrollment)
@@ -247,6 +255,10 @@ def save_signup(request):
         if user_data:
             messages.error(request, "Try some another unique username.")
             return render(request, "authentication/signup_data.html", {"details":academic_details})
+        
+        # ADDING CONSTRAINT FOR PASSWORD - WE CAN ALSO USE DJANGO-FORM BUT I'M AVOIDING AS OF NOW
+        password=request.POST.get("password")
+
 
         role = academic_details['role']
         batch_year = academic_details["batch_year"]

@@ -1,0 +1,114 @@
+/* ==============================
+   Skills Section - Scoped to .main-content
+============================== */
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 250px;
+  margin-top: -15px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* Skills Section Container */
+.main-content .skills-section {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+}
+
+/* Add Button */
+.main-content .add-btn {
+  padding: 8px 16px;
+  background: #0a66c2;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.main-content .add-btn:hover {
+  background: #004182;
+}
+
+/* Skill Cards */
+.main-content .skill-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-family: inherit;
+}
+
+/* Skill Header */
+.main-content .skill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Buttons inside skill card */
+.main-content .skill-actions .edit-btn,
+.main-content .skill-actions .delete-btn {
+  font-size: 13px;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: 0.3s ease;
+}
+
+.main-content .skill-actions .edit-btn {
+  background-color: transparent;
+  color: #0a66c2;
+  border: 1px solid #0a66c2;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.main-content .skill-actions .edit-btn:hover {
+  background-color: #0a66c2;
+  color: #fff;
+}
+
+.main-content .skill-actions .delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+}
+
+.main-content .skill-actions .delete-btn:hover {
+  background-color: #b52a37;
+}
+
+/* Proficiency */
+.main-content .proficiency {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Bootstrap Progress bar override */
+.main-content .progress {
+  height: 8px;
+  background-color: #eee;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.main-content .progress-bar {
+  background-color: #0a66c2;
+}
+
+/* No skills message */
+.main-content .no-skills {
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.response-btn { background-color: #74ae17; }

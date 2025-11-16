@@ -1,0 +1,160 @@
+/* ===========================
+   Reset & Basic Styling
+=========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ===========================
+   Container / Glass Card
+=========================== */
+.container {
+    background: rgba(20, 25, 40, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left; /* align form content left */
+    color: #ffffff;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* ===========================
+   Heading
+=========================== */
+.container h2 {
+    margin-bottom: 25px;
+    font-size: 1.9rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* ===========================
+   Form Groups
+=========================== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Labels */
+label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #f1f1f1;
+}
+
+/* Inputs & Selects */
+input, select {
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    outline: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+input:focus, select:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+}
+
+/* ===========================
+   File Input Styling
+=========================== */
+input[type="file"] {
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #000;
+    font-weight: 600;
+}
+
+input[type="file"]:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* ===========================
+   Buttons
+=========================== */
+.btn {
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: black;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #ececf0, #000000);
+    transform: translateY(-2px);
+}
+
+/* ===========================
+   Animations
+=========================== */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================
+   Responsive
+=========================== */
+@media (max-width: 500px) {
+    .container {
+        padding: 30px 20px;
+    }
+    input, select, .btn {
+        font-size: 0.9rem;
+    }
+    label {
+        font-size: 0.85rem;
+    }
+}

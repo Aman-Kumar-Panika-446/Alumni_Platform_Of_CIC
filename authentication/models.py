@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+from datetime import datetime
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 # Built in AbstractUser
@@ -174,6 +176,16 @@ class Experience(models.Model):
     location = models.CharField(max_length=100)
     location_type = models.CharField(max_length=30, choices= location_type_choices)
     media = models.FileField(null= True,blank=True, upload_to="user_experience")
+
+
+    def clean(self):
+        today = datetime.today().date()
+
+        if self.start_date and self.start_date > today:
+            raise ValidationError({"start_date": "Start date can't be in future."})
+
+        if self.end_date and self.end_date < self.start_date:
+            raise ValidationError({"end_date": "End date can't be before start date."})
 
     def __str__(self):
         return self.user.first_name + " - " + self.designation

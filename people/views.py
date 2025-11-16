@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from people.forms import *
+from django.db.models.functions import Lower
+
 # Create your views here.
 
 def list_people(request):
@@ -44,8 +46,8 @@ def list_people(request):
       
     if location:
         users = users.filter(
-            Q(StudentDetails__home_town = location) |
-            Q(AlumniDetails__location = location)
+            Q(StudentDetails__home_town__iexact=location) |
+            Q(AlumniDetails__location__iexact=location)
         )
     
     if status:
@@ -69,11 +71,16 @@ def list_people(request):
 
     # PREPARING DATA TO DISPLAY
     locations = [] 
-    alumni_location = AlumniDetails.objects.values_list('location', flat= True).distinct()
-    student_location = StudentDetails.objects.values_list('home_town', flat=True).distinct()
+    alumni_location = AlumniDetails.objects.annotate(
+        loc_lower=Lower('location')
+    ).values_list('loc_lower', flat=True).distinct()
 
-    locations = alumni_location.union(student_location).order_by('location')
-    
+    student_location = StudentDetails.objects.annotate(
+        loc_lower=Lower('home_town')
+    ).values_list('loc_lower', flat=True).distinct()
+
+    locations = alumni_location.union(student_location).order_by('loc_lower')
+ 
     designations = WorkingProfessional.objects.values_list('designation', flat= True).distinct().order_by('designation')
     batches = CustomUser.objects.all().exclude(ending_year__isnull = True).values_list('ending_year', flat=True).distinct().order_by('ending_year')
 

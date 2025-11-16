@@ -57,12 +57,12 @@
         </div>
 
        {% else %}
-        <input type="text" pattern = "[a-zA-Z]"name="home_town" placeholder="Home Town" required>
+        <input type="text" pattern = "[a-zA-Z, ]+" title="Only alphabets are allowed" name="home_town" placeholder="Home Town" required>
   
         {% endif %}
 
-      <input type="text" name="username" placeholder="Create username" required>
-      <input type="text" name="password" placeholder="Create Password" required>
+      <input type="text" pattern="[A-Za-z0-9!@#$%^&* ]{6,15}" title="Username should be 6–15 characters" name="username" placeholder="Create username" required>
+      <input type="text"  pattern="(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}" title="Password must be at least 8 characters long with at least one letter and one number." name="password" placeholder="Create Password" required>
       <button type="submit" class="btn">Signup</button>
     </form>
     {% endif %}

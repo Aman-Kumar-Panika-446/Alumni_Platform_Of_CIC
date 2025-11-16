@@ -1,6 +1,6 @@
 from django import forms
 from .models import *
-
+from datetime import date
 class OpportunityForm(forms.ModelForm):
     class Meta:
         model = Opportunity
@@ -8,8 +8,15 @@ class OpportunityForm(forms.ModelForm):
         exclude = ['user']
         
         widgets = {
-            "last_date": forms.DateInput(attrs={"type": "date"}),
+            "organization_name": forms.TextInput(attrs= {"pattern": "[a-zA-Z, ]{3,}", "title":"Provide atleast 3 aphabets in name.."}),
+            "role": forms.TextInput(attrs= {"pattern": "(?=(?:.*[A-Za-z]){3,}).+", "title":"Use atleast 3 aphabets."}),
+            "last_date": forms.DateInput(attrs={"type": "date",'min': date.today().strftime('%Y-%m-%d')}),
             "description": forms.Textarea(attrs={"rows": 3}),
+
+        }
+
+        help_texts = {
+            'duration': 'eg. 2 months, 1 week etc..',
         }
 
 class ApplicantForm(forms.ModelForm):
@@ -25,9 +32,11 @@ class OpportunityReportForm(forms.ModelForm):
         fields  = ['description']
 
         widgets = {
-            'description': forms.Textarea(attrs={
-                'placeholder': 'Why do want to report...?',
+            'description': forms.TextInput(attrs={
                 'rows': 3,
+                'placeholder': 'Why do want to report...?',
+                'pattern':"(?=(?:.*[A-Za-z]){10,}).+", 
+                'title':"Use atleast 10 alphabets or valid description",
                 'class': 'form-control'
             })
         }

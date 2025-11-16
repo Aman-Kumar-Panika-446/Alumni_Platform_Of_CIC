@@ -4,6 +4,7 @@ from django.db.models import Q, Max
 from authentication.models import CustomUser
 from .models import Message
 
+@login_required
 def get_contact_list(user):
     """
     Returns a list of unique contacts the user has chatted with,

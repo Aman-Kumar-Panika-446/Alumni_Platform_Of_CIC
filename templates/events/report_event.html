@@ -14,7 +14,7 @@
 
     <form method="POST" class="report-form">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.description }}
 
         <div class="button-group">
             <a href="{% url 'events:list_events' %}" class="cancel-btn">Cancel</a>

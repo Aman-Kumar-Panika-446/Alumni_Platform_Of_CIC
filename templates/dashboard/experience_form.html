@@ -10,7 +10,7 @@
 </head>
 <body>
 {% include "base/message.html" %}
-  <form method="post", enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   
   <h2> {{title}} </h2>
@@ -29,7 +29,7 @@
   </div>
 
   <div class="mb-3">
-    <label for="id_designation" class="form-label">Role*</label>
+    <label for="id_designation" class="form-label">Designation*</label>
     {{ form.designation }}
     <div class="text-danger">{{ form.designation.errors }}</div>
 
@@ -57,7 +57,7 @@
   </div>
 
   <div class="mb-3">
-    <label for="id_locatio_type" class="form-label">Location Type*</label>
+    <label for="id_location_type" class="form-label">Location Type*</label>
     {{ form.location_type }}
         <div class="text-danger">{{ form.location_type.errors }}</div>
 

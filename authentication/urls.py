@@ -16,9 +16,6 @@ urlpatterns = [
     path('user_details', views.user_details, name= 'user_details'),
     path('signup_data', views.signup_data, name= 'signup_data'),
     path('save_signup', views.save_signup, name= 'save_signup'),
-
-    # AFTER ACCOUNT CREATION
-    path('home_page', views.home, name = 'home_page'),
     
     # MANUAL VERIFICATION
     path('manual_verification', views.manual_verification, name = "manual_verification")

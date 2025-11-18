@@ -335,7 +335,7 @@ def save_signup(request):
             )
         messages.success(request, "Your account has been created.")
         login(request, user)
-        return redirect("home_page")
+        return redirect("index")
 
     return redirect('email_verification') 
 
@@ -363,10 +363,5 @@ def manual_verification(request):
         return redirect("index")
         
     return render(request, "authentication/manual_verification.html")
-
-
-@login_required(login_url='login_view')
-def home(request):
-    return render(request, "authentication/home.html")
 
 

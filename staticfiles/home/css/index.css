@@ -16,7 +16,7 @@
     background: linear-gradient(120deg, #F0F8FF, #E6E6FA);
 }
 
-.section h2 {
+.section h2, .team{
     font-size: 2.8rem;
     margin-bottom: 2rem;
     background: linear-gradient(45deg, #6C63FF, #FF7F50);
@@ -24,6 +24,9 @@
     -webkit-text-fill-color: transparent;
 }
 
+.team{
+  text-align: center;
+}
 /* CARDS */
 .carousel {
   overflow: hidden;
@@ -272,4 +275,59 @@ footer {
 .close-btn:hover {
   background: #00ffff;
   transform: scale(1.05);
+}
+
+
+/* Team Members in Footer */
+.team-members {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 15px;
+}
+.team-members .member {
+  text-align: center;
+}
+.team-members .footer-profile-pic {
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.team-members .member h3 {
+  margin-bottom: 5px;
+}
+.team-members .member h5 {
+  font-weight: normal;
+  color: #f0f0f0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section {
+    padding: 4rem 2rem;
+  } 
+
+  .carousel-track {
+    gap: 15px;
+  }
+  .card, .event-card {
+    width: 200px;
+  }
+  .benzene-container {
+    width: 300px;
+    height: 300px;
+  }
+  .atom {
+    width: 90px;
+    height: 90px;
+  }
+  .center-logo img {
+    width: 100px;
+    height: 100px;
+  }
+  .popup-content {
+    width: 250px;
+  }
 }

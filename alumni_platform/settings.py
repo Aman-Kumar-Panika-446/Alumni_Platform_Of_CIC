@@ -51,26 +51,25 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage'
 ]
+
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv("CLOUDINARY_CLOUD_NAME"),
     'API_KEY': os.getenv("CLOUDINARY_API_KEY"),
     'API_SECRET': os.getenv("CLOUDINARY_API_SECRET"),
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# STORAGES = {
-#     'default': {
-#         'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
-#     },
-#     'staticfiles': { # whitenoise or switch
-#         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-#     }
-# }
-
-
-
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
+    'staticfiles': { # whitenoise or switch
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    }
+}
 MEDIA_URL = '/media/'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -118,16 +117,6 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv("POSTGRES_DB"),
-#         'USER': os.getenv("POSTGRES_USER"),
-#         'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
-#         'HOST': os.getenv("POSTGRES_HOST"),
-#         'PORT': os.getenv("POSTGRES_PORT", 5432),
-#     }
-# }
 
 import dj_database_url
 DATABASES = {

@@ -21,5 +21,5 @@ def send_otp_to_mail(email, otp_code):
         response.raise_for_status()
         return True 
     except requests.exceptions.RequestException as e:
-        print(f"Error sending email: {e}")
+        print(f"Error sending email: {e.response.text}")
         return False    

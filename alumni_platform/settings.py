@@ -51,19 +51,31 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage'
 ]
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv("CLOUDINARY_CLOUD_NAME"),
+    'API_KEY': os.getenv("CLOUDINARY_API_KEY"),
+    'API_SECRET': os.getenv("CLOUDINARY_API_SECRET"),
+}
+STORAGES = {
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
+    'staticfiles': { # whitenoise or switch
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    }
+}
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
+MEDIA_URL = '/media/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 
 ]
 
@@ -111,6 +123,7 @@ CHANNEL_LAYERS = {
 #         'PORT': os.getenv("POSTGRES_PORT", 5432),
 #     }
 # }
+
 import dj_database_url
 DATABASES = {
     'default': dj_database_url.config(
@@ -181,5 +194,4 @@ USE_TZ = True
 
 
 ## EMAIL CONFIGURATION
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

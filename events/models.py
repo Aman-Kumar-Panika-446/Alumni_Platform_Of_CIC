@@ -14,8 +14,8 @@ class Event(models.Model):
     end_date = models.DateField(blank=True, null=True)
     venue = models.CharField(max_length=100)
     posted_on = models.DateField(auto_now=True)
-    image = models.ImageField(default="events/default.webp", upload_to='events', blank= True, null= True)
-    
+    image = models.ImageField(default="events/default.webp", upload_to='events/', blank= True, null= True)    
+   
     # ADDING VALIDATION CHECKS
     def clean(self):
         today = datetime.today().date()

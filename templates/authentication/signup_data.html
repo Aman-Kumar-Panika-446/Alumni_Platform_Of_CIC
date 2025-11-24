@@ -57,7 +57,7 @@
         </div>
 
        {% else %}
-        <input type="text" pattern = "[a-zA-Z, ]+" title="Only alphabets are allowed" name="home_town" placeholder="Home Town" required>
+        <input type="text" pattern = "[A-Za-z .()\-]{2,50}" title="Only alphabets are allowed" name="home_town" placeholder="Home Town" required>
   
         {% endif %}
 

@@ -140,10 +140,10 @@ class ManualVerification(models.Model):
     email_id = models.EmailField(blank=False, null=False)
     
     id_type = models.CharField(max_length=30, blank=False, null=False)
-    id_file = models.FileField(upload_to = "id_proofs")
+    id_file = models.FileField(upload_to = "id_proofs/")
 
     clg_id_type= models.CharField(max_length=30, blank=False, null=False)
-    clg_id_file = models.FileField(upload_to = "clg_id_proofs")
+    clg_id_file = models.FileField(upload_to = "clg_id_proofs/")
 
     def __str__(self):
         return self.username

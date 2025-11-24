@@ -192,7 +192,7 @@ def add_skill(request):
     else:
         form = SkillForm()
     
-    return render(request, "dashboard/skill_form.html", {"form": form, "title": "Add Experience"})
+    return render(request, "dashboard/skill_form.html", {"form": form, "title": "Add Experience", "title":"Add Skill"})
 
 
 @login_required

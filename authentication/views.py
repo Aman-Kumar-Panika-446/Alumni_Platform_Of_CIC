@@ -253,7 +253,7 @@ def save_signup(request):
         username= request.POST.get("username")
         user_data = CustomUser.objects.filter(username = username).exists()
         if user_data:
-            messages.error(request, "Try some another unique username.")
+            messages.error(request, "This username is in use. Try some another unique username.")
             return render(request, "authentication/signup_data.html", {"details":academic_details})
         
         # ADDING CONSTRAINT FOR PASSWORD - WE CAN ALSO USE DJANGO-FORM BUT I'M AVOIDING AS OF NOW

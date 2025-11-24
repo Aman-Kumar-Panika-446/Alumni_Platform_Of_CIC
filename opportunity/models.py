@@ -17,7 +17,7 @@ class Opportunity(models.Model):
     description = models.TextField(max_length=500)
     last_date = models.DateField()
     posted_on = models.DateField(auto_now=True)
-    image = models.ImageField(default="opportunity/default.jpg", upload_to='opportunity', blank= True, null= True)
+    image = models.ImageField(default="https://res.cloudinary.com/dvqujmybl/image/upload/v1764002286/default-opportunity_jzbs9w.jpg", upload_to='opportunity', blank= True, null= True)
     
 
     def __str__(self): 

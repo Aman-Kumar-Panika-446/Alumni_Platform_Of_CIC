@@ -47,7 +47,11 @@
 
     <!-- Profile Section -->
     <div class="profile">
-      <img src="{{ request.user.profile_pic.url }}" alt="Profile">
+    {% if request.user.profile_pic %}
+    <img src="{{ request.user.profile_pic.url }}" alt="Profile">
+    {% else %}
+    <img src="https://res.cloudinary.com/dvqujmybl/image/upload/v1764002286/default-avatar_tieved.png " alt="Profile">
+    {% endif %}
       <span>Me<i class="fas fa-caret-down"></i></span>
 
       <!-- Dropdown -->

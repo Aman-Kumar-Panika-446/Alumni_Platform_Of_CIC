@@ -8,15 +8,15 @@ class ExperienceForm(forms.ModelForm):
         exclude = ['user']
         widgets = {
             "organization_name":forms.TextInput(attrs={
-                "pattern":"(?=(?:.*[A-Za-z]){3,})[A-Za-z0-9 .,&()-]+",
-                "title": "Use at least 3 alphabets. Letters, numbers, spaces, . , & ( ) - allowed."
+                "pattern":"[a-zA-Z,. ]{3,}",
+                "title": "Only alphabets are allowed & provide atleast 3 aphabets in name.."
             }),
             "designation": forms.TextInput(attrs={
-                "pattern": "(?=(?:.*[A-Za-z]){3,}).+",
+                "pattern": "(?=(?:.*[A-Za-z.]){3,}).+",
                 "title": "Use at least 3 alphabets. Letters, numbers, spaces, . , & ( ) - allowed."
             }),
             "location":forms.TextInput(attrs={
-                "pattern": "(?=(?:.*[A-Za-z]){2,})[A-Za-z .,&()-]+",
+                "pattern": "[a-zA-Z,. ]{2,}.+",
                 "title": "Use at least 2 alphabets. Letters, spaces, . , & ( ) - allowed."
             }),
             "start_date": forms.DateInput(attrs={"type": "date"}),
@@ -37,8 +37,8 @@ class SkillForm(forms.ModelForm):
 
         widgets = {
             'skill_name': forms.TextInput(attrs={
-                'pattern': '[A-Za-z ]+',
-                'title': 'Only alphabets allowed'
+                'pattern': '[A-Za-z.,+ ]+',
+                'title': "Only alphabets and some special characters (. , +) are allowed"
             }),
         }
 

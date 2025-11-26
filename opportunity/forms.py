@@ -8,8 +8,8 @@ class OpportunityForm(forms.ModelForm):
         exclude = ['user']
         
         widgets = {
-            "organization_name": forms.TextInput(attrs= {"pattern": "[a-zA-Z, ]{3,}", "title":"Provide atleast 3 aphabets in name.."}),
-            "role": forms.TextInput(attrs= {"pattern": "(?=(?:.*[A-Za-z]){3,}).+", "title":"Use atleast 3 aphabets."}),
+            "organization_name": forms.TextInput(attrs= {"pattern": "[a-zA-Z,. ]{3,}", "title":"Only alphabets are allowed & provide atleast 3 aphabets in name.."}),
+            "role": forms.TextInput(attrs= {"pattern": "(?=(?:.*[A-Za-z,.]){3,}).+", "title":"Use atleast 3 aphabets."}),
             "last_date": forms.DateInput(attrs={"type": "date",'min': date.today().strftime('%Y-%m-%d')}),
             "description": forms.Textarea(attrs={"rows": 3}),
 

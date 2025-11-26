@@ -8,8 +8,8 @@ class EventForm(forms.ModelForm):
         exclude = ['user']
         
         widgets = {
-            "title":forms.TextInput(attrs={"pattern":"(?=(?:.*[A-Za-z]){3,}).+", "title":"Use atleast 3 alphabets or valid name"}),
-            "venue":forms.TextInput(attrs={"pattern":"(?=(?:.*[A-Za-z]){3,}).+", "title":"Use atleast 3 alphabets or valid name"}),
+            "title":forms.TextInput(attrs={"pattern":"(?=(?:.*[A-Za-z. ]){3,}).+", "title":"Use atleast 3 alphabets or valid name"}),
+            "venue":forms.TextInput(attrs={"pattern":"(?=(?:.*[A-Za-z. ]){3,}).+", "title":"Use atleast 3 alphabets or valid name"}),
             "time": forms.TimeInput(format="%H:%M", attrs={'type': 'time'}),
             "start_date": forms.DateInput(attrs={"type": "date"}),
             "end_date": forms.DateInput(attrs={"type": "date"}),

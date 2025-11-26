@@ -40,7 +40,6 @@ class CustomUser(AbstractUser):
     course_name = models.CharField(max_length=50, null= True, choices=course_choices) 
     profile_pic = models.ImageField(
         upload_to="profile_pictures/",
-        default="https://res.cloudinary.com/dvqujmybl/image/upload/v1764002286/default-avatar_tieved.png", 
         blank=True,
         null=True
     )

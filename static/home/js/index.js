@@ -34,7 +34,10 @@ function createAtoms(setIndex) {
         const atom = document.createElement("div");
         atom.classList.add("atom");
         const img = document.createElement("img");
-        img.src = imgData.src;
+        img.src = imgData?.src || "";   // empty or invalid src
+        img.onerror = function () {
+        this.src = "/static/defaults/profile.png"; // default image path
+        };
         atom.appendChild(img);
 
         // Position atoms in circle

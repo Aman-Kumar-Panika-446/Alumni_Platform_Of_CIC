@@ -91,13 +91,22 @@
   {%endif%}
 </div>
 
-{{ slug|json_script:"room_slug" }}
+{% if receiver %}
+    {{ slug|json_script:"room_slug" }}
+{% else %}
+    {{ ""|json_script:"room_slug" }}
+{% endif %}
 
+{% if receiver %}
 <script>
   const chatbox = document.querySelector("#chatbox");
   const input = document.querySelector("#my_input");
   const sendBtn = document.querySelector("#submit_button");
-  const roomName = JSON.parse(document.getElementById("room_slug").textContent);
+  let roomName = JSON.parse(document.getElementById("room_slug").textContent);
+  if (!roomName || roomName.trim() === "") {
+      roomName = "default_room";
+  }
+
   const currentUser = "{{ request.user.username }}";
 
   const protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
@@ -205,6 +214,7 @@
 
   };
 </script>
+{% endif %}
 
 </body>
 </html>

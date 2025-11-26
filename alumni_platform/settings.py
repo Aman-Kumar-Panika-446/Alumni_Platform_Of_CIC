@@ -69,7 +69,7 @@ STORAGES = {
     }
 }
 MEDIA_URL = '/media/'
-
+MEDIA_ROOT = BASE_DIR / "media"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -105,13 +105,16 @@ WSGI_APPLICATION = 'alumni_platform.wsgi.application'
 # Manually Added
 ASGI_APPLICATION = 'alumni_platform.asgi.application'
 
+
+REDIS_URL = os.environ.get("REDIS_URL")
+
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-         'CONFIG': {
-            'hosts': [os.environ.get('REDIS_URL')],
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [REDIS_URL],
         },
-    },
+    }
 }
 
 # Database

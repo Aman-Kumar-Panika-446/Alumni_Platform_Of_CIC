@@ -20,7 +20,12 @@
   <div class="profile-header glass">
     <div class="header-left">
       <div class="profile-pic">
+      {% if user.profile_pic %}
         <img src="{{ user.profile_pic.url }}" alt="profile-pic">
+      {% else %}
+        <img src="{% static 'defaults/profile.png' %}" alt="profile-pic">
+      {% endif %}
+      
       </div>
       <div class="user-basic">
         <h2>{{ user.first_name|title }} {{ user.last_name|title }} '{{ user.ending_year|stringformat:"s"|slice:"2:"}}</h2>

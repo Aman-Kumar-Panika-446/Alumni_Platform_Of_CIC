@@ -4,7 +4,6 @@ from django.db.models import Q, Max
 from authentication.models import CustomUser
 from .models import Message
 
-@login_required
 def get_contact_list(user):
     """
     Returns a list of unique contacts the user has chatted with,
@@ -61,7 +60,7 @@ def chat_view(request):
     Sidebar view showing list of unique contacts with latest messages.
     """
     contact_list = get_contact_list(request.user)
-    return render(request, "chat/chat.html", {"user_last_messages": contact_list})
+    return render(request, "chat/chat.html", {"user_last_messages": contact_list, "receiver": None, " chats": []})
 
 
 @login_required

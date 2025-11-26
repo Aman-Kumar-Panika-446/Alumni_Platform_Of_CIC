@@ -47,7 +47,11 @@
       {% for data in all_data %}
       <a href = "{% url 'people:profile_details' data.pk %}" class = 'star-card'>
       <div class="card">
+      {% if data.profile_pic %}
         <img src="{{ data.profile_pic.url }}" alt="{{ data.first_name }}">
+      {% else %}
+        <img src="{% static 'defaults/profile.png' %}" alt="profile-pic">
+      {% endif %}
         <h3>{{ data.first_name | title }} {{ data.last_name| title }}</h3>
         <p>{{ data.role | title }} – {{data.ending_year}}</p>
         
@@ -73,7 +77,11 @@
       {% for data in all_data %}
       <a href = "{% url 'people:profile_details' data.pk %}" class = 'star-card'>
       <div class="card">
+      {% if data.profile_pic %}
         <img src="{{ data.profile_pic.url }}" alt="{{ data.first_name }}">
+      {% else %}
+        <img src="{% static 'defaults/profile.png' %}" alt="profile-pic">
+      {% endif %}
         <h3>{{ data.first_name | title }} {{ data.last_name| title }}</h3>
         <p>{{ data.role | title }} – {{data.ending_year}}</p>
         
@@ -110,7 +118,11 @@
       {% for event in events %}
     <a href = "{% url 'events:event_detail' event.pk %}" class = "card-link">
       <div class="event-card">
-        <img src="{{ event.image.url }}" alt="event">
+      {% if event.image %}
+        <img src="{{ event.image.url }}" alt="{{ event.title }}">
+      {% else %}
+        <img src="{% static 'defaults/event.png' %}" alt="event">
+      {% endif %}
         <h3>{{ event.title | title }}</h3>
         <p>Posted By: {{ event.user.first_name| title }} {{event.user.last_name | title}}</p>
       
@@ -122,7 +134,11 @@
       <a href = "{% url 'events:event_detail' event.pk %}" class = "card-link">
 
       <div class="event-card">
+      {% if event.image %}
         <img src="{{ event.image.url }}" alt="event">
+      {% else %}
+        <img src="{% static 'defaults/event.png' %}" alt="event">
+      {% endif %}
         <h3>{{ event.title | title }}</h3>
         <p>Posted By: {{ event.user.first_name| title }} {{event.user.last_name | title}}</p>
       
@@ -177,7 +193,11 @@
 const alumniData = [
   {% for data in all_data %}
   {
+    {% if data.profile_pic %}
     src: "{{ data.profile_pic.url }}",
+    {% else %}
+    src: "{% static 'defaults/profile.png' %}",
+    {% endif %}
     name: "{{ data.first_name }} {{ data.last_name }}",
     batch: "{{ data.ending_year }}",
     dept: "{{ data.AlumniDetails.department|default:'N/A' }}",

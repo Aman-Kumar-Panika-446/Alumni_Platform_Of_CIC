@@ -39,7 +39,11 @@
         <div class="event-card">
           <!-- Left: Image -->
           <div class="event-left">
+          {% if event.image %}
             <img src="{{ event.image.url }}" alt="{{ event.title }}" />
+          {% else %}  
+            <img src="{% static 'defaults/event.png' %}" alt="Default Image" />
+          {% endif %}
           </div>
 
           <!-- Right: Details -->

@@ -93,7 +93,11 @@
     {% for user in users %}
       <div class="profile-card" onclick = "window.location.href='{% url 'people:profile_details' user.pk %}'">
         <div class="profile-img">
+        {% if user.profile_pic %}
           <img src="{{ user.profile_pic.url }}" alt="Profile">
+        {% else %}
+          <img src="{% static 'defaults/profile.png' %}" alt="Profile">
+        {% endif %}
         </div>
         <div class="profile-info">
           <div class="name-wrapper">

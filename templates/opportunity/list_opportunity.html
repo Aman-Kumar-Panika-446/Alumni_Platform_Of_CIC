@@ -54,7 +54,11 @@
         <div class="event-card">
           <!-- Left: Image -->
           <div class="event-left">
+          {% if opp.image %}
             <img src="{{ opp.image.url }}" alt="{{ opp.opportunity_type }}" />
+          {% else %}
+            <img src="{% static 'defaults/opportunity.jpg' %}" alt="opportunity">
+          {% endif %}
           </div>
 
           <!-- Right: Details -->

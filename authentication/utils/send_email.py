@@ -9,7 +9,7 @@ def send_otp_to_mail(email, otp_code):
     }
     
     data = {
-        "from": {"email": "CIC@test-eqvygm01nzjl0p7w.mlsender.net"},
+        "from": {"email": "CIC@test-69oxl5ewwqxl785k.mlsender.net"},
         "to": [{"email": email}],
         "subject": "Your OTP Code",
         "text": f"Your OTP is: {otp_code}",

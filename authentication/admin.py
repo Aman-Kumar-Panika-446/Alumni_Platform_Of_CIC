@@ -32,7 +32,7 @@ class OthersInline(admin.StackedInline):
 # --- Custom User Admin ---
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ("profile_pic_preview","id", "username", "email", "first_name", "last_name","course_name", "role")
+    list_display = ("profile_pic_preview","id", "username", "email", "first_name", "last_name","course_name", "role", "last_seen")
 
     # while editing
     fieldsets = UserAdmin.fieldsets + (
